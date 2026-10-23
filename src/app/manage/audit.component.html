@@ -1,0 +1,33 @@
+<div class="page-head"><h1>Audit log</h1></div>
+
+<form class="toolbar" (submit)="$event.preventDefault(); find()">
+  <label class="sr-only" for="au-search">Search</label>
+  <input id="au-search" class="input" name="search" placeholder="Search by action, user or type" [(ngModel)]="search">
+  <button type="submit" class="btn btn-outline">Search</button>
+</form>
+<p class="hint">A permanent record of sensitive actions: order status changes, bills, deletions, deactivations and password resets.</p>
+
+<div *ngIf="loading" class="spinner-row">Loading…</div>
+<div *ngIf="error" class="alert alert-error">{{ error }}</div>
+<div *ngIf="!loading && !error && data && !data.items.length" class="alert alert-info">No entries found.</div>
+
+<div class="table-wrap" *ngIf="data?.items?.length">
+  <table class="table">
+    <thead><tr><th>When</th><th>Who</th><th>Action</th><th>Record</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let a of data!.items">
+        <td class="nowrap">{{ a.createdAt | date: 'medium' }}</td>
+        <td>{{ a.userName }}</td>
+        <td><span class="badge badge-info">{{ a.action }}</span></td>
+        <td class="nowrap">{{ a.entityType }}<span *ngIf="a.entityId"> #{{ a.entityId }}</span></td>
+        <td>{{ a.details }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="toolbar" *ngIf="data && data.total > data.pageSize" style="margin-top:1rem">
+  <button type="button" class="btn btn-outline btn-sm" [disabled]="page <= 1" (click)="go(-1)">Previous</button>
+  <span class="small muted">Page {{ page }} of {{ lastPage }} ({{ data.total }} entries)</span>
+  <button type="button" class="btn btn-outline btn-sm" [disabled]="page >= lastPage" (click)="go(1)">Next</button>
+</div>

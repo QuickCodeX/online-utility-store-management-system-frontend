@@ -1,0 +1,49 @@
+<div class="page">
+  <a routerLink="/" class="brand" aria-label="Back to UtilityStore"><span class="mark" aria-hidden="true">U</span><span>Utility<b>Store</b></span></a>
+
+  <form class="card-auth wide" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <h1>Create a new account</h1>
+    <p class="lead">It takes a minute. Save your delivery details for faster checkout.</p>
+
+    <div *ngIf="error" class="alert alert-error" role="alert">{{ error }}</div>
+
+    <div class="field">
+      <label for="rg-name">Full name</label>
+      <input id="rg-name" class="input" formControlName="fullName" autocomplete="name" [class.invalid]="invalid('fullName')">
+      <span class="error-text" *ngIf="invalid('fullName')">Enter your name.</span>
+    </div>
+    <div class="field">
+      <label for="rg-email">Email</label>
+      <input id="rg-email" type="email" class="input" formControlName="email" autocomplete="email" [class.invalid]="invalid('email')">
+      <span class="error-text" *ngIf="invalid('email')">Enter a valid email address.</span>
+    </div>
+    <div class="form-row">
+      <div class="field">
+        <label for="rg-phone">Phone (optional)</label>
+        <input id="rg-phone" class="input" formControlName="phone" autocomplete="tel">
+      </div>
+      <div class="field">
+        <label for="rg-address">Address (optional)</label>
+        <input id="rg-address" class="input" formControlName="address" autocomplete="street-address">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="field">
+        <label for="rg-pass">Password</label>
+        <input id="rg-pass" type="password" class="input" formControlName="password" autocomplete="new-password" [class.invalid]="invalid('password')">
+        <span class="error-text" *ngIf="invalid('password')">Use 8 or more characters with an uppercase letter, a lowercase letter and a number.</span>
+      </div>
+      <div class="field">
+        <label for="rg-confirm">Confirm password</label>
+        <input id="rg-confirm" type="password" class="input" formControlName="confirm" autocomplete="new-password" [class.invalid]="invalid('confirm') || (form.touched && form.hasError('mismatch'))">
+        <span class="error-text" *ngIf="form.controls.confirm.touched && form.hasError('mismatch')">The passwords do not match.</span>
+      </div>
+    </div>
+
+    <button class="btn btn-block" type="submit" [disabled]="loading">{{ loading ? 'Creating account…' : 'Sign up' }}</button>
+    <div class="divider"></div>
+    <p class="alt">Already have an account? <a routerLink="/account/login" [queryParams]="returnParams">Log in</a></p>
+  </form>
+
+  <p class="below"><a routerLink="/">&larr; Back to the store</a></p>
+</div>

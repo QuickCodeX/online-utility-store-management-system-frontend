@@ -1,0 +1,44 @@
+<div class="container store-page">
+  <app-steps [current]="1"></app-steps>
+  <h1>Your cart</h1>
+
+  <ng-container *ngIf="cart.lines$ | async as lines">
+    <div *ngIf="!lines.length" class="empty-state">
+      <h3>Your cart is empty</h3>
+      <p>Add a few products and they will show up here.</p>
+      <a routerLink="/shop" class="btn">Browse products</a>
+    </div>
+
+    <div class="layout" *ngIf="lines.length">
+      <ul class="lines card">
+        <li *ngFor="let l of lines">
+          <a class="thumb" [routerLink]="['/product', l.productId]" aria-hidden="true" tabindex="-1">
+            <img *ngIf="l.imageUrl; else ini" [src]="l.imageUrl" alt="">
+            <ng-template #ini><span>{{ l.name.slice(0, 2).toUpperCase() }}</span></ng-template>
+          </a>
+          <div class="meta">
+            <a class="name" [routerLink]="['/product', l.productId]">{{ l.name }}</a>
+            <span class="muted small">{{ l.price | money }} each &middot; {{ l.maxStock }} available</span>
+            <button type="button" class="rm" (click)="cart.remove(l.productId)"><app-icon name="trash"></app-icon>Remove</button>
+          </div>
+          <div class="qty" role="group" [attr.aria-label]="'Quantity for ' + l.name">
+            <button type="button" (click)="onQuantity(l.productId, l.quantity - 1)" [disabled]="l.quantity <= 1" aria-label="Decrease quantity"><app-icon name="minus"></app-icon></button>
+            <input type="number" min="1" [max]="l.maxStock" [ngModel]="l.quantity" (ngModelChange)="onQuantity(l.productId, $event)" aria-label="Quantity">
+            <button type="button" (click)="onQuantity(l.productId, l.quantity + 1)" [disabled]="l.quantity >= l.maxStock" aria-label="Increase quantity"><app-icon name="plus"></app-icon></button>
+          </div>
+          <strong class="total">{{ l.price * l.quantity | money }}</strong>
+        </li>
+      </ul>
+
+      <aside class="card card-pad summary">
+        <h2>Order summary</h2>
+        <div class="row"><span>Subtotal</span><strong>{{ (cart.subtotal$ | async) | money }}</strong></div>
+        <div class="row muted"><span>Payment</span><span>Cash on delivery</span></div>
+        <div class="row grand"><span>Total</span><strong>{{ (cart.subtotal$ | async) | money }}</strong></div>
+        <p class="small muted">The store confirms the final total when you place the order.</p>
+        <a routerLink="/checkout" class="btn btn-lg btn-block">Go to checkout <app-icon name="arrow"></app-icon></a>
+        <a routerLink="/shop" class="btn btn-ghost btn-block">Continue shopping</a>
+      </aside>
+    </div>
+  </ng-container>
+</div>

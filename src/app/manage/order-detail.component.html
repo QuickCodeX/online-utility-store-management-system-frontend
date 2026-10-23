@@ -1,0 +1,57 @@
+<div class="page-head">
+  <h1>Order {{ order?.orderNumber }}</h1>
+  <a routerLink="/admin/orders" class="btn btn-ghost">Back to orders</a>
+</div>
+
+<div *ngIf="loading" class="spinner-row">Loading order…</div>
+<div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+<ng-container *ngIf="order">
+  <div class="split">
+    <section class="card card-pad">
+      <h2>Status</h2>
+      <p><app-status-badge [status]="order.status"></app-status-badge>
+        <span class="muted small"> placed {{ order.orderDate | date: 'medium' }}</span></p>
+      <p class="muted small" *ngIf="order.updatedAt">Last updated {{ order.updatedAt | date: 'medium' }}</p>
+
+      <div class="actions left" *ngIf="nextStatuses.length">
+        <button *ngFor="let s of nextStatuses" type="button" class="btn btn-sm" [class.btn-danger]="s === 'Cancelled'"
+                [class.btn-outline]="s !== 'Cancelled'" [disabled]="busy" (click)="change(s)">
+          {{ s === 'Cancelled' ? 'Cancel order' : 'Mark ' + s }}
+        </button>
+      </div>
+      <p class="muted small" *ngIf="!nextStatuses.length">This order is {{ order.status }} and can no longer change.</p>
+
+      <div class="actions left" style="margin-top:1rem">
+        <button type="button" class="btn btn-sm" *ngIf="canBill" [disabled]="busy" (click)="generateBill()">Generate bill</button>
+        <a *ngIf="order.billId" class="btn btn-outline btn-sm" [routerLink]="['/admin/bills', order.billId]">View bill</a>
+      </div>
+      <p class="hint" *ngIf="!canBill && !order.billId && order.status !== 'Cancelled'">A bill can be generated once the order is Processing.</p>
+    </section>
+
+    <section class="card card-pad">
+      <h2>Customer and delivery</h2>
+      <p style="margin:0">
+        <strong>{{ order.deliveryName }}</strong><br>
+        {{ order.deliveryPhone }}<br>
+        {{ order.deliveryAddress }}
+      </p>
+      <p class="muted small" style="margin:.75rem 0 0">Account: {{ order.customerName }} ({{ order.customerEmail }})</p>
+      <p class="small" *ngIf="order.notes" style="margin:.5rem 0 0">Notes: {{ order.notes }}</p>
+      <p style="margin:.75rem 0 0">Payment: {{ order.paymentMethod }} <app-status-badge [status]="order.paymentStatus"></app-status-badge></p>
+    </section>
+  </div>
+
+  <div class="table-wrap" style="margin-top:1rem">
+    <table class="table">
+      <thead><tr><th>Product</th><th>Unit price</th><th>Qty</th><th class="right">Line total</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let i of order.items">
+          <td>{{ i.productName }}</td><td class="nowrap">{{ i.unitPrice | money }}</td><td>{{ i.quantity }}</td>
+          <td class="right nowrap">{{ i.lineTotal | money }}</td>
+        </tr>
+        <tr><td colspan="3" class="right"><strong>Total</strong></td><td class="right nowrap"><strong>{{ order.total | money }}</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>

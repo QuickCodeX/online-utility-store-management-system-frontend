@@ -1,0 +1,37 @@
+<div class="page-head"><h1>Inventory</h1></div>
+
+<div class="toolbar">
+  <label class="check"><input type="checkbox" [(ngModel)]="onlyLow"> Show low stock only (fewer than 10)</label>
+</div>
+
+<div *ngIf="loading" class="spinner-row">Loading stock levels…</div>
+<div *ngIf="error" class="alert alert-error">{{ error }}</div>
+<div *ngIf="!loading && !error && !shown.length" class="alert alert-info">{{ onlyLow ? 'Nothing is running low.' : 'No inventory records yet.' }}</div>
+
+<div class="table-wrap" *ngIf="shown.length">
+  <table class="table">
+    <thead><tr><th>Product</th><th>Category</th><th>In stock</th><th>Receive stock</th><th>Correct count</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let r of shown">
+        <td><strong>{{ r.productName }}</strong> <span class="badge badge-danger" *ngIf="r.isArchived">Archived</span></td>
+        <td>{{ r.category }}</td>
+        <td>
+          <strong>{{ r.quantityStock }}</strong>
+          <span class="badge badge-warn" *ngIf="r.isLowStock"> Low</span>
+        </td>
+        <td>
+          <div class="inline-ctl">
+            <input class="input" type="number" min="1" [(ngModel)]="receiveQty[r.productId]" [attr.aria-label]="'Quantity received for ' + r.productName" placeholder="Qty">
+            <button type="button" class="btn btn-sm" [disabled]="busyId === r.productId" (click)="receive(r)">Add</button>
+          </div>
+        </td>
+        <td>
+          <div class="inline-ctl">
+            <input class="input" type="number" min="0" [(ngModel)]="setQty[r.productId]" [attr.aria-label]="'Counted stock for ' + r.productName" placeholder="Count">
+            <button type="button" class="btn btn-outline btn-sm" [disabled]="busyId === r.productId" (click)="set(r)">Set</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

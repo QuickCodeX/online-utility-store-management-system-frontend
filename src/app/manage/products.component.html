@@ -1,0 +1,35 @@
+<div class="page-head">
+  <h1>Products</h1>
+  <a routerLink="new" class="btn">Add product</a>
+</div>
+
+<div class="toolbar">
+  <label class="sr-only" for="pf">Filter products</label>
+  <input id="pf" class="input" type="search" placeholder="Filter by name or category" [(ngModel)]="filter">
+</div>
+
+<div *ngIf="loading" class="spinner-row">Loading products…</div>
+<div *ngIf="error" class="alert alert-error">{{ error }}</div>
+<div *ngIf="!loading && !error && !shown.length" class="alert alert-info">No products found.</div>
+
+<div class="table-wrap" *ngIf="shown.length">
+  <table class="table">
+    <thead><tr><th>Name</th><th>Category</th><th>Price</th><th>In stock</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      <tr *ngFor="let p of shown">
+        <td><strong>{{ p.name }}</strong></td>
+        <td>{{ p.category }}</td>
+        <td class="nowrap">{{ p.price | money }}</td>
+        <td>{{ p.quantity }} <span class="badge badge-warn" *ngIf="p.quantity < 10">Low</span></td>
+        <td><span class="badge" [class.badge-ok]="p.isActive" [class.badge-danger]="!p.isActive">{{ p.isActive ? 'On sale' : 'Archived' }}</span></td>
+        <td>
+          <div class="actions">
+            <a class="btn btn-outline btn-sm" [routerLink]="[p.id, 'edit']">Edit</a>
+            <button type="button" class="btn btn-ghost btn-sm" (click)="toggleActive(p)">{{ p.isActive ? 'Archive' : 'Restore' }}</button>
+            <button *ngIf="session.isAdmin()" type="button" class="btn btn-danger btn-sm" (click)="remove(p)">Delete</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

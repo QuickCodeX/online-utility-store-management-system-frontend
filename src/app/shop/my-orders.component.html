@@ -1,0 +1,29 @@
+<div class="container store-page">
+  <h1>My orders</h1>
+
+  <div *ngIf="loading" class="spinner-row">Loading your orders…</div>
+  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+  <div *ngIf="!loading && !error && !orders.length" class="empty-state">
+    <h3>No orders yet</h3>
+    <p>When you place an order it will appear here.</p>
+    <a routerLink="/shop" class="btn">Start shopping</a>
+  </div>
+
+  <div class="table-wrap stack-table" *ngIf="orders.length">
+    <table class="table">
+      <thead><tr><th>Order</th><th>Date</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th><span class="sr-only">Details</span></th></tr></thead>
+      <tbody>
+        <tr *ngFor="let o of orders">
+          <td data-label="Order"><strong>{{ o.orderNumber }}</strong></td>
+          <td data-label="Date" class="nowrap">{{ o.orderDate | date: 'mediumDate' }}</td>
+          <td data-label="Items">{{ o.itemCount }}</td>
+          <td data-label="Total" class="nowrap">{{ o.total | money }}</td>
+          <td data-label="Payment">{{ o.paymentMethod }} <app-status-badge [status]="o.paymentStatus"></app-status-badge></td>
+          <td data-label="Status"><app-status-badge [status]="o.status"></app-status-badge></td>
+          <td class="right"><a class="btn btn-outline btn-sm" [routerLink]="['/orders', o.id]">Details</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

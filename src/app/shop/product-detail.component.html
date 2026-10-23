@@ -1,0 +1,56 @@
+<div class="container store-page">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a routerLink="/">Home</a><span aria-hidden="true">/</span>
+    <a routerLink="/shop">Shop</a>
+    <ng-container *ngIf="product"><span aria-hidden="true">/</span><a routerLink="/shop" [queryParams]="{ category: product.categoryId }">{{ product.category }}</a><span aria-hidden="true">/</span><span>{{ product.name }}</span></ng-container>
+  </nav>
+
+  <div class="detail" *ngIf="loading">
+    <div class="skeleton media-sk"></div>
+    <div><div class="skeleton line big"></div><div class="skeleton line"></div><div class="skeleton line short"></div></div>
+  </div>
+  <div *ngIf="error" class="empty-state"><h3>Product unavailable</h3><p>{{ error }}</p><a routerLink="/shop" class="btn">Back to the shop</a></div>
+
+  <ng-container *ngIf="product">
+    <div class="detail">
+      <div class="media-card">
+        <div class="media">
+          <img *ngIf="product.imageUrl; else tile" [src]="product.imageUrl" [alt]="product.name">
+          <ng-template #tile><span class="initials" aria-hidden="true">{{ product.name.slice(0, 2).toUpperCase() }}</span></ng-template>
+        </div>
+      </div>
+
+      <div class="info">
+        <a class="cat" routerLink="/shop" [queryParams]="{ category: product.categoryId }">{{ product.category }}</a>
+        <h1>{{ product.name }}</h1>
+        <p class="price">{{ product.price | money }}</p>
+
+        <p class="stock" [ngClass]="stockClass"><span class="dot" aria-hidden="true"></span>{{ stockText }}</p>
+        <p class="desc">{{ product.description || 'No description available.' }}</p>
+
+        <div class="buy" *ngIf="inStock">
+          <div class="field qtywrap">
+            <span class="label" id="qty-label">Quantity</span>
+            <div class="qty" role="group" aria-labelledby="qty-label">
+              <button type="button" (click)="step(-1)" [disabled]="quantity <= 1" aria-label="Decrease quantity"><app-icon name="minus"></app-icon></button>
+              <input type="number" min="1" [max]="product.quantity" [ngModel]="quantity" (ngModelChange)="setQuantity($event)" aria-label="Quantity">
+              <button type="button" (click)="step(1)" [disabled]="quantity >= product.quantity" aria-label="Increase quantity"><app-icon name="plus"></app-icon></button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-lg add" (click)="add()"><app-icon name="cart"></app-icon>Add to cart</button>
+        </div>
+        <button *ngIf="!inStock" type="button" class="btn btn-lg" disabled>Out of stock</button>
+
+        <ul class="assure">
+          <li><app-icon name="cash"></app-icon><span><strong>Cash on delivery</strong> Pay in cash when your order arrives. No card needed.</span></li>
+          <li><app-icon name="package"></app-icon><span><strong>Real stock</strong> Availability is checked when you place your order.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <section class="section" *ngIf="related.length" aria-labelledby="rel-title">
+      <div class="section-head"><h2 id="rel-title">More from {{ product.category }}</h2><a routerLink="/shop" [queryParams]="{ category: product.categoryId }" class="link-arrow">View all <app-icon name="arrow"></app-icon></a></div>
+      <div class="product-grid cols-4"><app-product-card *ngFor="let p of related" [product]="p"></app-product-card></div>
+    </section>
+  </ng-container>
+</div>

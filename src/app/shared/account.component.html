@@ -1,0 +1,52 @@
+<h1>My account</h1>
+
+<div *ngIf="loading" class="spinner-row">Loading your details…</div>
+<div *ngIf="loadError" class="alert alert-error">{{ loadError }}</div>
+
+<div class="acct" *ngIf="profile">
+  <section class="card card-pad">
+    <h2>Details</h2>
+    <p class="muted small">{{ profile.email }} · {{ profile.role }}</p>
+
+    <div *ngIf="profileError" class="alert alert-error">{{ profileError }}</div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" novalidate>
+      <div class="field">
+        <label for="acc-name">Full name</label>
+        <input id="acc-name" class="input" formControlName="name" autocomplete="name"
+               [class.invalid]="profileForm.controls.name.touched && profileForm.controls.name.invalid">
+        <span class="error-text" *ngIf="profileForm.controls.name.touched && profileForm.controls.name.invalid">Enter your name.</span>
+      </div>
+      <div class="field">
+        <label for="acc-phone">Phone</label>
+        <input id="acc-phone" class="input" formControlName="phone" autocomplete="tel">
+      </div>
+      <div class="field">
+        <label for="acc-address">Address</label>
+        <textarea id="acc-address" class="input" formControlName="address" autocomplete="street-address"></textarea>
+      </div>
+      <button class="btn" type="submit" [disabled]="savingProfile">{{ savingProfile ? 'Saving…' : 'Save details' }}</button>
+    </form>
+  </section>
+
+  <section class="card card-pad">
+    <h2>Change password</h2>
+    <div *ngIf="passwordError" class="alert alert-error">{{ passwordError }}</div>
+
+    <form [formGroup]="passwordForm" (ngSubmit)="savePassword()" novalidate>
+      <div class="field">
+        <label for="acc-cur">Current password</label>
+        <input id="acc-cur" type="password" class="input" formControlName="currentPassword" autocomplete="current-password">
+        <span class="error-text" *ngIf="passwordForm.controls.currentPassword.touched && passwordForm.controls.currentPassword.invalid">Enter your current password.</span>
+      </div>
+      <div class="field">
+        <label for="acc-new">New password</label>
+        <input id="acc-new" type="password" class="input" formControlName="newPassword" autocomplete="new-password">
+        <span class="error-text" *ngIf="passwordForm.controls.newPassword.touched && passwordForm.controls.newPassword.invalid">Use 8 or more characters with an uppercase letter, a lowercase letter and a number.</span>
+      </div>
+      <button class="btn" type="submit" [disabled]="savingPassword">{{ savingPassword ? 'Saving…' : 'Change password' }}</button>
+    </form>
+  </section>
+</div>
+
+<p class="signout" *ngIf="isStore"><button type="button" class="btn btn-outline" (click)="logout()">Log out</button></p>

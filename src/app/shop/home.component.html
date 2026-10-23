@@ -1,0 +1,97 @@
+<div class="container">
+
+  <!-- 1. Hero: bento grid (one large message tile + two supporting tiles) -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="tile main">
+      <span class="eyebrow">Cash on delivery &middot; No card needed</span>
+      <h1 id="hero-title">Everyday essentials, ordered online.</h1>
+      <p class="lead">Order today, pay on delivery. Add your items, enter your address and settle the bill in cash when your order arrives.</p>
+      <div class="cta">
+        <a routerLink="/shop" class="btn btn-lg btn-light">Start your order <app-icon name="arrow"></app-icon></a>
+        <a routerLink="/" fragment="categories" class="btn btn-lg btn-ghost-light">Browse categories</a>
+      </div>
+    </div>
+    <div class="tile side-a">
+      <span class="ico"><app-icon name="cash"></app-icon></span>
+      <h3>Pay when it arrives</h3>
+      <p>No card, no online payment. You pay the delivery person in cash.</p>
+    </div>
+    <div class="tile side-b">
+      <span class="ico"><app-icon name="package"></app-icon></span>
+      <h3>Real stock</h3>
+      <p>Availability is checked against the store's stock when you order.</p>
+    </div>
+  </section>
+
+  <!-- 2. Trust strip -->
+  <ul class="trust" aria-label="Why customers trust us">
+    <li><app-icon name="check"></app-icon><div><strong>Cash on delivery</strong><span>No card required</span></div></li>
+    <li><app-icon name="check"></app-icon><div><strong>Real stock</strong><span>Availability checked</span></div></li>
+    <li><app-icon name="check"></app-icon><div><strong>Clear pricing</strong><span>No surprise total</span></div></li>
+    <li><app-icon name="check"></app-icon><div><strong>Fast ordering</strong><span>Simple checkout</span></div></li>
+  </ul>
+
+  <div *ngIf="error" class="alert alert-error section">{{ error }}</div>
+
+  <!-- 3. Shop by category (from the database, managed by admin and staff) -->
+  <section class="section" id="categories" aria-labelledby="cat-title">
+    <div class="section-head">
+      <div><h2 id="cat-title">Shop by category</h2><p>Everything you need for everyday life, in one catalogue.</p></div>
+      <a routerLink="/shop" class="link-arrow">All products <app-icon name="arrow"></app-icon></a>
+    </div>
+
+    <div class="cats" *ngIf="categories.length; else noCats">
+      <a *ngFor="let c of categories; let i = index" class="cat" [routerLink]="['/shop']" [queryParams]="{ category: c.id }">
+        <span class="cat-ico" [attr.data-tone]="i % 4">{{ c.name.charAt(0) }}</span>
+        <span class="cat-text">
+          <strong>{{ c.name }}</strong>
+          <span class="cat-desc">{{ c.description || 'Browse this category' }}</span>
+          <span class="cat-go">Shop category <app-icon name="arrow"></app-icon></span>
+        </span>
+      </a>
+    </div>
+    <ng-template #noCats>
+      <div class="empty-state" *ngIf="!error"><h3>No categories yet</h3><p>Categories will appear here once the store adds them.</p></div>
+    </ng-template>
+  </section>
+
+  <!-- 4. Popular products -->
+  <section class="section" aria-labelledby="pop-title">
+    <div class="section-head">
+      <div><h2 id="pop-title">Popular right now</h2><p>Reliable everyday products at clear prices.</p></div>
+      <a routerLink="/shop" class="link-arrow">See everything <app-icon name="arrow"></app-icon></a>
+    </div>
+
+    <div class="product-grid cols-4" *ngIf="loading">
+      <div class="skeleton-card" *ngFor="let n of [1,2,3,4]"><div class="skeleton img"></div><div class="skeleton line"></div><div class="skeleton line short"></div></div>
+    </div>
+    <div class="empty-state" *ngIf="!loading && !featured.length && !error">
+      <h3>No products yet</h3><p>There are no products on sale right now. Please check back soon.</p>
+    </div>
+    <div class="product-grid cols-4" *ngIf="!loading && featured.length">
+      <app-product-card *ngFor="let p of featured" [product]="p"></app-product-card>
+    </div>
+  </section>
+
+  <!-- 5. Why shop with us -->
+  <section class="section" aria-labelledby="why-title">
+    <div class="section-head"><h2 id="why-title">Why shop with us</h2></div>
+    <div class="why">
+      <div><span class="ico"><app-icon name="grid"></app-icon></span><h3>Everyday range</h3><p>Groceries, household goods and small electronics from one catalogue.</p></div>
+      <div><span class="ico"><app-icon name="tag"></app-icon></span><h3>Fair prices</h3><p>Every price is shown up front. The total you see is the total you pay.</p></div>
+      <div><span class="ico"><app-icon name="bolt"></app-icon></span><h3>Simple ordering</h3><p>Add to cart, confirm your address, done. Track the status in your account.</p></div>
+      <div><span class="ico"><app-icon name="package"></app-icon></span><h3>Live stock</h3><p>Availability is checked against the store's real stock when you order.</p></div>
+    </div>
+  </section>
+
+  <!-- 6. Closing call to action -->
+  <section class="section">
+    <div class="closing">
+      <div>
+        <h2>Order today, pay on delivery.</h2>
+        <p>No card needed. Add your items, enter your address and settle the bill in cash when your order arrives.</p>
+      </div>
+      <a routerLink="/shop" class="btn btn-lg btn-light">Start your order <app-icon name="arrow"></app-icon></a>
+    </div>
+  </section>
+</div>

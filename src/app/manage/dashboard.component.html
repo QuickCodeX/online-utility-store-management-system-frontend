@@ -1,0 +1,38 @@
+<h1>Dashboard</h1>
+
+<div *ngIf="loading" class="spinner-row">Loading figures…</div>
+<div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+<ng-container *ngIf="data">
+  <div class="stats">
+    <a class="stat" routerLink="../orders"><span>Total orders</span><strong>{{ data.totalOrders }}</strong></a>
+    <a class="stat" routerLink="../orders" [queryParams]="{ status: 'Pending' }"><span>Pending orders</span><strong>{{ data.pendingOrders }}</strong></a>
+    <div class="stat" *ngIf="data.revenue !== null"><span>Revenue (completed orders)</span><strong>{{ data.revenue | money }}</strong></div>
+    <a class="stat" routerLink="../products"><span>Active products</span><strong>{{ data.activeProducts }}</strong></a>
+    <a class="stat" [class.warn]="data.lowStockProducts > 0" routerLink="../inventory"><span>Low-stock products</span><strong>{{ data.lowStockProducts }}</strong></a>
+    <a class="stat" routerLink="../customers"><span>Customers</span><strong>{{ data.customers }}</strong></a>
+  </div>
+
+  <section class="recent">
+    <div class="head"><h2>Recent orders</h2><a routerLink="../orders">All orders</a></div>
+
+    <div *ngIf="!data.recentOrders.length" class="empty">
+      No orders yet. Orders appear here as soon as a customer checks out.
+    </div>
+
+    <div class="table-wrap" *ngIf="data.recentOrders.length">
+      <table class="table">
+        <thead><tr><th>Order</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let o of data.recentOrders">
+            <td><a [routerLink]="['../orders', o.id]">{{ o.orderNumber }}</a></td>
+            <td>{{ o.customerName }}</td>
+            <td class="nowrap">{{ o.orderDate | date: 'medium' }}</td>
+            <td class="nowrap">{{ o.total | money }}</td>
+            <td><app-status-badge [status]="o.status"></app-status-badge></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</ng-container>

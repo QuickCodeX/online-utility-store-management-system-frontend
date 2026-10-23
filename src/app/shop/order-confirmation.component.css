@@ -1,0 +1,6 @@
+.box { max-width: 620px; margin: 0 auto; text-align: center; padding: var(--s-12) var(--s-8); }
+.tick { width: 64px; height: 64px; margin: 0 auto var(--s-5); display: grid; place-items: center; border-radius: 50%; background: var(--leaf); color: #fff; font-size: 1.75rem; }
+h1 { font-size: var(--fs-2xl); }
+.num { font-size: var(--fs-lg); }
+.status { display: inline-flex; gap: var(--s-2); align-items: center; }
+.cta { display: flex; gap: var(--s-3); justify-content: center; flex-wrap: wrap; margin-top: var(--s-6); }

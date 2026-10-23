@@ -1,0 +1,24 @@
+<div class="page-head"><h1>Bills</h1></div>
+
+<div *ngIf="loading" class="spinner-row">Loading bills…</div>
+<div *ngIf="error" class="alert alert-error">{{ error }}</div>
+<div *ngIf="!loading && !error && !bills.length" class="alert alert-info">
+  No bills yet. Open an order that is Processing and choose "Generate bill".
+</div>
+
+<div class="table-wrap" *ngIf="bills.length">
+  <table class="table">
+    <thead><tr><th>Bill</th><th>Order</th><th>Customer</th><th>Issued by</th><th>Date</th><th class="right">Amount</th><th></th></tr></thead>
+    <tbody>
+      <tr *ngFor="let b of bills">
+        <td>#{{ b.id }}</td>
+        <td><a [routerLink]="['/admin/orders', b.orderId]">{{ b.orderNumber }}</a></td>
+        <td>{{ b.customerName }}</td>
+        <td>{{ b.staffName }}</td>
+        <td class="nowrap">{{ b.billDate | date: 'medium' }}</td>
+        <td class="right nowrap">{{ b.totalAmount | money }}</td>
+        <td class="right"><a class="btn btn-outline btn-sm" [routerLink]="[b.id]">View</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

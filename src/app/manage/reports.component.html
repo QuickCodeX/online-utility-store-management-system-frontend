@@ -1,0 +1,62 @@
+<div class="page-head"><h1>Sales reports</h1></div>
+
+<form class="toolbar" (submit)="$event.preventDefault(); load()">
+  <label class="small" for="rp-from">From</label>
+  <input id="rp-from" class="input narrow" type="date" name="from" [(ngModel)]="from">
+  <label class="small" for="rp-to">To</label>
+  <input id="rp-to" class="input narrow" type="date" name="to" [(ngModel)]="to">
+  <label class="small" for="rp-cat">Category</label>
+  <select id="rp-cat" class="input narrow" name="categoryId" [(ngModel)]="categoryId">
+    <option [ngValue]="0">All categories</option>
+    <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.name }}</option>
+  </select>
+  <button type="submit" class="btn btn-outline">Show report</button>
+  <button type="button" class="btn btn-ghost" *ngIf="report?.salesByDay?.length" (click)="exportCsv()">Export CSV</button>
+</form>
+<p class="hint">Sales are the totals of Completed orders. Cancelled orders are not counted. Leave the dates empty for the last 30 days.</p>
+
+<div *ngIf="loading" class="spinner-row">Building report…</div>
+<div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+<ng-container *ngIf="report && !loading">
+  <div class="stats">
+    <div class="stat"><span>Period</span><strong class="small-num">{{ report.from }} to {{ report.to }}</strong></div>
+    <div class="stat"><span>Total sales</span><strong>{{ report.totalSales | money }}</strong></div>
+    <div class="stat"><span>Completed orders</span><strong>{{ report.completedOrders }}</strong></div>
+  </div>
+
+  <div *ngIf="!report.salesByDay.length" class="alert alert-info">No data available for this period.</div>
+
+  <div class="split" *ngIf="report.salesByDay.length">
+    <section>
+      <h2>Sales by day</h2>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Date</th><th>Orders</th><th class="right">Sales</th><th class="barcol"><span class="sr-only">Share</span></th></tr></thead>
+          <tbody>
+            <tr *ngFor="let d of report.salesByDay">
+              <td class="nowrap">{{ d.date }}</td>
+              <td>{{ d.orders }}</td>
+              <td class="right nowrap">{{ d.total | money }}</td>
+              <td class="barcol"><div class="meter"><span [style.width.%]="maxDay ? (d.total / maxDay) * 100 : 0"></span></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Top products</h2>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Product</th><th>Sold</th><th class="right">Revenue</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let p of report.topProducts">
+              <td>{{ p.productName }}</td><td>{{ p.quantitySold }}</td><td class="right nowrap">{{ p.revenue | money }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</ng-container>

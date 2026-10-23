@@ -1,0 +1,34 @@
+<div class="page-head"><h1>Orders</h1></div>
+
+<form class="toolbar" (submit)="$event.preventDefault(); apply()">
+  <label class="sr-only" for="of-status">Status</label>
+  <select id="of-status" class="input narrow" [(ngModel)]="status" name="status" (change)="apply()">
+    <option value="">All statuses</option>
+    <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+  </select>
+  <label class="sr-only" for="of-q">Search orders</label>
+  <input id="of-q" class="input" type="search" name="q" [(ngModel)]="search" placeholder="Order number or customer name">
+  <button type="submit" class="btn btn-outline">Search</button>
+</form>
+
+<div *ngIf="loading" class="spinner-row">Loading orders…</div>
+<div *ngIf="error" class="alert alert-error">{{ error }}</div>
+<div *ngIf="!loading && !error && !orders.length" class="alert alert-info">No orders match. Orders appear here when customers check out.</div>
+
+<div class="table-wrap" *ngIf="orders.length">
+  <table class="table">
+    <thead><tr><th>Order</th><th>Customer</th><th>Date</th><th>Total</th><th>Payment</th><th>Status</th><th>Bill</th><th></th></tr></thead>
+    <tbody>
+      <tr *ngFor="let o of orders">
+        <td><strong>{{ o.orderNumber }}</strong></td>
+        <td>{{ o.customerName }}</td>
+        <td class="nowrap">{{ o.orderDate | date: 'medium' }}</td>
+        <td class="nowrap">{{ o.total | money }}</td>
+        <td>{{ o.paymentMethod }} <app-status-badge [status]="o.paymentStatus"></app-status-badge></td>
+        <td><app-status-badge [status]="o.status"></app-status-badge></td>
+        <td>{{ o.hasBill ? 'Yes' : '—' }}</td>
+        <td class="right"><a class="btn btn-outline btn-sm" [routerLink]="[o.id]">Open</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

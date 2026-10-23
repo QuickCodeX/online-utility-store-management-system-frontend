@@ -1,0 +1,14 @@
+/* On phones each table row becomes a labelled card, so nothing scrolls sideways */
+@media (max-width: 719px) {
+  .stack-table { overflow: visible; border: 0; background: none; }
+  .stack-table .table, .stack-table tbody, .stack-table tr, .stack-table td { display: block; }
+  .stack-table thead { position: absolute; left: -9999px; }
+  .stack-table tr { margin-bottom: var(--s-4); padding: var(--s-2) var(--s-4); background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); }
+  .stack-table td { display: flex; justify-content: space-between; gap: var(--s-4); padding: var(--s-2) 0; border-bottom: 1px solid var(--line); text-align: right; }
+  .stack-table td:last-child { border-bottom: 0; justify-content: flex-end; }
+  .stack-table td[data-label]::before { content: attr(data-label); color: var(--muted); font-weight: 600; text-align: left; }
+}
+.detail-card { margin-top: var(--s-6); }
+.detail-card h3 { margin-bottom: var(--s-3); }
+.head-row { display: flex; align-items: center; gap: var(--s-3); flex-wrap: wrap; margin-bottom: var(--s-6); }
+.head-row p { margin: 0; }

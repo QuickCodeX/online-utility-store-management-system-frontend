@@ -1,0 +1,20 @@
+<div class="shell">
+  <aside class="side" [class.open]="open">
+    <a routerLink="/admin" class="brand"><span class="mark" aria-hidden="true">U</span><span>Utility<b>Store</b></span></a>
+    <p class="who small">{{ session.role }} panel</p>
+    <nav aria-label="Management">
+      <a *ngFor="let i of visibleItems" [routerLink]="i.path" routerLinkActive="on" (click)="open = false">{{ i.label }}</a>
+    </nav>
+    <a routerLink="/" class="store small">View storefront</a>
+  </aside>
+
+  <div class="content">
+    <header class="top">
+      <button type="button" class="burger" (click)="open = !open" [attr.aria-expanded]="open" aria-label="Menu">Menu</button>
+      <span class="spacer"></span>
+      <span class="user">{{ session.fullName }} <span class="badge">{{ session.role }}</span></span>
+      <button type="button" class="btn btn-outline btn-sm" (click)="logout()">Sign out</button>
+    </header>
+    <main class="page"><router-outlet></router-outlet></main>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<div class="announce">Cash on delivery on every order. No card needed.</div>
+
+<header class="head">
+  <div class="container bar">
+    <a routerLink="/" class="logo" aria-label="UtilityStore home">
+      <span class="mark" aria-hidden="true">U</span>
+      <span class="word">Utility<b>Store</b></span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+      <a routerLink="/" routerLinkActive="on" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a routerLink="/shop" routerLinkActive="on">Shop</a>
+      <a routerLink="/about" routerLinkActive="on">About</a>
+      <a routerLink="/contact" routerLinkActive="on">Contact</a>
+    </nav>
+
+    <form class="search" role="search" (submit)="$event.preventDefault(); search(q.value)">
+      <label class="sr-only" for="site-search">Search products</label>
+      <app-icon name="search"></app-icon>
+      <input #q id="site-search" type="search" placeholder="Search products">
+    </form>
+
+    <div class="actions">
+      <ng-container *ngIf="session.session$ | async as s; else guest">
+        <div class="menu">
+          <button type="button" class="menu-btn" (click)="toggleMenu($event)" [attr.aria-expanded]="menuOpen" aria-haspopup="true">
+            <app-icon name="user"></app-icon><span class="who">{{ firstName(s.fullName) }}</span><app-icon name="down"></app-icon>
+          </button>
+          <div class="menu-pop" *ngIf="menuOpen" role="menu">
+            <a routerLink="/orders" role="menuitem">My orders</a>
+            <a routerLink="/account" role="menuitem">My account</a>
+            <button type="button" role="menuitem" (click)="logout()">Log out</button>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #guest>
+        <a routerLink="/account/login" class="login">Log in</a>
+        <a routerLink="/account/register" class="btn btn-sm signup">Sign up</a>
+      </ng-template>
+
+      <a routerLink="/cart" class="cartlink" aria-label="Cart">
+        <app-icon name="cart"></app-icon>
+        <span class="count" *ngIf="(cart.count$ | async) as n">{{ n }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="foot">
+  <div class="container cols">
+    <div class="brandcol">
+      <a routerLink="/" class="logo light"><span class="mark" aria-hidden="true">U</span><span class="word">Utility<b>Store</b></span></a>
+      <p>Everyday groceries, household goods and electronics, ordered online and paid for on delivery.</p>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <a routerLink="/shop">All products</a>
+      <a routerLink="/cart">Your cart</a>
+      <a routerLink="/orders">Order history</a>
+    </div>
+    <div>
+      <h4>Store</h4>
+      <a routerLink="/about">About us</a>
+      <a routerLink="/contact">Contact</a>
+      <a routerLink="/account/login">Log in</a>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p>Main Market, Lahore<br>0300 000 0000<br>hello&#64;utilitystore.example</p>
+    </div>
+  </div>
+  <div class="container legal">&copy; {{ year }} UtilityStore. Academic project for VU CS619.</div>
+</footer>
+
+<!-- Phone navigation: the four places customers use most -->
+<nav class="tabbar" aria-label="Quick navigation">
+  <a routerLink="/" routerLinkActive="on" [routerLinkActiveOptions]="{ exact: true }"><app-icon name="home"></app-icon><span>Home</span></a>
+  <a routerLink="/shop" routerLinkActive="on"><app-icon name="grid"></app-icon><span>Shop</span></a>
+  <a routerLink="/cart" routerLinkActive="on" class="tab-cart">
+    <app-icon name="cart"></app-icon><span>Cart</span>
+    <span class="count" *ngIf="(cart.count$ | async) as n">{{ n }}</span>
+  </a>
+  <a [routerLink]="(session.session$ | async) ? '/account' : '/account/login'" routerLinkActive="on"><app-icon name="user"></app-icon><span>Account</span></a>
+</nav>

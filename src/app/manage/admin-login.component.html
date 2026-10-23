@@ -1,0 +1,28 @@
+<div class="admin">
+  <div class="page">
+    <span class="brand"><span class="mark" aria-hidden="true">U</span><span>Utility<b>Store</b></span></span>
+
+    <form class="card-auth" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <span class="tag">Admin &amp; staff</span>
+      <h1>Log in to the dashboard</h1>
+      <p class="lead">For store administrators and staff members only.</p>
+
+      <div *ngIf="error" class="alert alert-error" role="alert">{{ error }}</div>
+
+      <div class="field">
+        <label for="ad-email">Email</label>
+        <input id="ad-email" type="email" class="input" formControlName="email" autocomplete="username" [class.invalid]="invalid('email')">
+        <span class="error-text" *ngIf="invalid('email')">Enter a valid email address.</span>
+      </div>
+      <div class="field">
+        <label for="ad-pass">Password</label>
+        <input id="ad-pass" type="password" class="input" formControlName="password" autocomplete="current-password" [class.invalid]="invalid('password')">
+        <span class="error-text" *ngIf="invalid('password')">Enter your password.</span>
+      </div>
+
+      <button class="btn btn-block" type="submit" [disabled]="loading">{{ loading ? 'Logging in…' : 'Log in' }}</button>
+    </form>
+
+    <p class="below">Shopping instead? <a href="/">Go to the store</a></p>
+  </div>
+</div>

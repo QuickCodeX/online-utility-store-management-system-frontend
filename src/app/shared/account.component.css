@@ -1,0 +1,3 @@
+:host { display: block; }
+.acct { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; align-items: start; }
+.signout { margin-top: var(--s-8); }

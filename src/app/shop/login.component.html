@@ -1,0 +1,29 @@
+<div class="page">
+  <a routerLink="/" class="brand" aria-label="Back to UtilityStore"><span class="mark" aria-hidden="true">U</span><span>Utility<b>Store</b></span></a>
+
+  <form class="card-auth" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <h1>Log in</h1>
+    <p class="lead">Welcome back. Log in to check out and track your orders.</p>
+
+    <div *ngIf="notice" class="alert alert-info" role="status">{{ notice }}</div>
+    <div *ngIf="error" class="alert alert-error" role="alert">{{ error }}</div>
+
+    <div class="field">
+      <label for="li-email">Email</label>
+      <input id="li-email" type="email" class="input" formControlName="email" autocomplete="username" [class.invalid]="invalid('email')">
+      <span class="error-text" *ngIf="invalid('email')">Enter a valid email address.</span>
+    </div>
+    <div class="field">
+      <label for="li-pass">Password</label>
+      <input id="li-pass" type="password" class="input" formControlName="password" autocomplete="current-password" [class.invalid]="invalid('password')">
+      <span class="error-text" *ngIf="invalid('password')">Enter your password.</span>
+    </div>
+
+    <button class="btn btn-block" type="submit" [disabled]="loading">{{ loading ? 'Logging in…' : 'Log in' }}</button>
+
+    <div class="divider"></div>
+    <a routerLink="/account/register" [queryParams]="returnParams" class="btn btn-create">Create new account</a>
+  </form>
+
+  <p class="below"><a routerLink="/">&larr; Back to the store</a></p>
+</div>

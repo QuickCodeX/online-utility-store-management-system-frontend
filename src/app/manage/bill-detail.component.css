@@ -1,0 +1,11 @@
+.invoice { max-width: 780px; }
+.invoice header { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line); padding-bottom: 1rem; margin-bottom: 1rem; }
+.invoice h2 { margin: 0; }
+.meta { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.meta h4 { margin-bottom: .2rem; color: var(--muted); font-size: .85rem; }
+.meta p { margin: 0; }
+tfoot td { border-top: 2px solid var(--line); background: var(--mist-soft); }
+@media print {
+  .noprint { display: none !important; }
+  .invoice { border: 0; box-shadow: none; max-width: none; padding: 0; }
+}

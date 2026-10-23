@@ -1,0 +1,49 @@
+<div class="page-head noprint">
+  <h1>Bill #{{ bill?.id }}</h1>
+  <div class="actions">
+    <a routerLink="/admin/bills" class="btn btn-ghost">All bills</a>
+    <button type="button" class="btn" *ngIf="bill" (click)="print()">Print bill</button>
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-row">Loading bill…</div>
+<div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+<article class="invoice card card-pad" *ngIf="bill">
+  <header>
+    <div>
+      <h2>UtilityStore</h2>
+      <p class="muted small">Main Market, Lahore · 0300 000 0000</p>
+    </div>
+    <div class="right">
+      <strong>Bill #{{ bill.id }}</strong><br>
+      <span class="small">{{ bill.billDate | date: 'medium' }}</span>
+    </div>
+  </header>
+
+  <div class="meta">
+    <div>
+      <h4>Billed to</h4>
+      <p>{{ bill.customerName }}<br>{{ bill.customerPhone }}<br>{{ bill.customerAddress }}</p>
+    </div>
+    <div>
+      <h4>Order</h4>
+      <p>{{ bill.orderNumber }}<br>Placed {{ bill.orderDate | date: 'mediumDate' }}<br>Issued by {{ bill.staffName }}</p>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead><tr><th>Item</th><th>Unit price</th><th>Qty</th><th class="right">Amount</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let i of bill.items">
+        <td>{{ i.productName }}</td><td class="nowrap">{{ i.unitPrice | money }}</td><td>{{ i.quantity }}</td>
+        <td class="right nowrap">{{ i.lineTotal | money }}</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="3" class="right"><strong>Total due</strong></td><td class="right nowrap"><strong>{{ bill.totalAmount | money }}</strong></td></tr>
+    </tfoot>
+  </table>
+
+  <p class="small muted">Payment: {{ bill.paymentMethod }} ({{ bill.paymentStatus }}).</p>
+</article>

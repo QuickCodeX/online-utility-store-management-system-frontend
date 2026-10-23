@@ -1,0 +1,47 @@
+<div class="page-head"><h1>Categories</h1></div>
+
+<form class="card card-pad form inline" [formGroup]="form" (ngSubmit)="save()" novalidate>
+  <h2>{{ editing ? 'Edit category' : 'Add a category' }}</h2>
+  <div *ngIf="formError" class="alert alert-error">{{ formError }}</div>
+  <div class="form-row">
+    <div class="field">
+      <label for="cf-name">Name</label>
+      <input id="cf-name" class="input" formControlName="name" [class.invalid]="form.controls.name.touched && form.controls.name.invalid">
+      <span class="error-text" *ngIf="form.controls.name.touched && form.controls.name.invalid">Enter a category name.</span>
+    </div>
+    <div class="field">
+      <label for="cf-desc">Description (optional)</label>
+      <input id="cf-desc" class="input" formControlName="description">
+    </div>
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn" [disabled]="saving || (editing && !session.isAdmin())">{{ saving ? 'Saving…' : (editing ? 'Save changes' : 'Add category') }}</button>
+    <button type="button" class="btn btn-ghost" *ngIf="editing" (click)="cancel()">Cancel</button>
+  </div>
+  <p class="hint" *ngIf="!session.isAdmin()">Staff can add categories. Only an administrator can edit, archive or delete them.</p>
+</form>
+
+<div *ngIf="loading" class="spinner-row">Loading categories…</div>
+<div *ngIf="error" class="alert alert-error">{{ error }}</div>
+<div *ngIf="!loading && !error && !categories.length" class="alert alert-info">No categories yet. Add the first one above.</div>
+
+<div class="table-wrap" *ngIf="categories.length">
+  <table class="table">
+    <thead><tr><th>Name</th><th>Description</th><th>Products</th><th>Status</th><th *ngIf="session.isAdmin()"></th></tr></thead>
+    <tbody>
+      <tr *ngFor="let c of categories">
+        <td><strong>{{ c.name }}</strong></td>
+        <td class="muted">{{ c.description }}</td>
+        <td>{{ c.productCount }}</td>
+        <td><span class="badge" [class.badge-ok]="c.isActive" [class.badge-danger]="!c.isActive">{{ c.isActive ? 'Active' : 'Archived' }}</span></td>
+        <td *ngIf="session.isAdmin()">
+          <div class="actions">
+            <button type="button" class="btn btn-outline btn-sm" (click)="edit(c)">Edit</button>
+            <button type="button" class="btn btn-ghost btn-sm" (click)="toggleActive(c)">{{ c.isActive ? 'Archive' : 'Restore' }}</button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="remove(c)">Delete</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

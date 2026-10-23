@@ -1,0 +1,28 @@
+<div class="page-head"><h1>Customers</h1></div>
+
+<div class="toolbar">
+  <label class="sr-only" for="cu-f">Filter customers</label>
+  <input id="cu-f" class="input" type="search" placeholder="Filter by name or email" [(ngModel)]="filter">
+</div>
+
+<div *ngIf="loading" class="spinner-row">Loading customers…</div>
+<div *ngIf="error" class="alert alert-error">{{ error }}</div>
+<div *ngIf="!loading && !error && !shown.length" class="alert alert-info">No customers found.</div>
+
+<div class="table-wrap" *ngIf="shown.length">
+  <table class="table">
+    <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Joined</th><th>Status</th><th *ngIf="session.isAdmin()"></th></tr></thead>
+    <tbody>
+      <tr *ngFor="let c of shown">
+        <td><strong>{{ c.name }}</strong></td>
+        <td>{{ c.email }}</td>
+        <td>{{ c.phone || '—' }}</td>
+        <td class="nowrap">{{ c.createdAt | date: 'mediumDate' }}</td>
+        <td><span class="badge" [class.badge-ok]="c.isActive" [class.badge-danger]="!c.isActive">{{ c.isActive ? 'Active' : 'Deactivated' }}</span></td>
+        <td *ngIf="session.isAdmin()" class="right">
+          <button type="button" class="btn btn-sm" [class.btn-outline]="c.isActive" (click)="toggle(c)">{{ c.isActive ? 'Deactivate' : 'Activate' }}</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

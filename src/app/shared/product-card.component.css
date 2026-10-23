@@ -1,0 +1,29 @@
+/* One product card for home, shop and related products: image, category, name, stock, price + Add */
+.pc { display: flex; flex-direction: column; height: 100%; background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; transition: border-color .15s, box-shadow .15s; }
+.pc:hover { border-color: #b9cabf; box-shadow: var(--shadow-md); }
+.media { display: grid; place-items: center; aspect-ratio: 1; overflow: hidden; }
+.media img { width: 100%; height: 100%; object-fit: cover; transition: transform .25s; }
+.pc:hover .media img { transform: scale(1.03); }
+.initials { font-size: 2.5rem; font-weight: 700; color: var(--pine); opacity: .4; letter-spacing: .02em; }
+.body { display: flex; flex-direction: column; gap: var(--s-1); padding: var(--s-4); flex: 1; }
+.cat { font-size: var(--fs-xs); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.cat:hover { color: var(--leaf-dark); text-decoration: none; }
+h3 { margin: 0; font-size: var(--fs-base); font-weight: 600; line-height: 1.35; min-height: 2.7em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+h3 a { color: var(--ink); }
+h3 a:hover { color: var(--leaf-dark); text-decoration: none; }
+.stock { display: flex; align-items: center; gap: 6px; margin: var(--s-1) 0 var(--s-3); font-size: var(--fs-sm); font-weight: 500; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.stock.in { color: #1e7a4f; }
+.stock.low { color: var(--warn); }
+.stock.out { color: var(--danger); }
+.foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: var(--s-2); }
+.price { font-size: var(--fs-lg); font-weight: 700; color: var(--pine); letter-spacing: -.01em; }
+.foot .btn { padding: 0 var(--s-3); }
+
+.price { white-space: nowrap; }
+.foot .btn { white-space: nowrap; }
+@media (max-width: 479px) {
+  .body { padding: var(--s-3); }
+  .foot { flex-wrap: wrap; }
+  .foot .btn { width: 100%; }
+}

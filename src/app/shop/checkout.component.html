@@ -1,0 +1,59 @@
+<div class="container store-page">
+  <app-steps [current]="2"></app-steps>
+  <h1>Checkout</h1>
+
+  <div class="layout" *ngIf="session.isCustomer()">
+    <form class="stack" [formGroup]="form" (ngSubmit)="place()" novalidate>
+      <section class="card card-pad">
+        <h2>Delivery details</h2>
+        <div *ngIf="error" class="alert alert-error" role="alert">{{ error }}</div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="co-name">Full name</label>
+            <input id="co-name" class="input" formControlName="deliveryName" autocomplete="name" [class.invalid]="invalid('deliveryName')">
+            <span class="error-text" *ngIf="invalid('deliveryName')">Enter the name of the person receiving the order.</span>
+          </div>
+          <div class="field">
+            <label for="co-phone">Phone number</label>
+            <input id="co-phone" class="input" formControlName="deliveryPhone" autocomplete="tel" inputmode="tel" [class.invalid]="invalid('deliveryPhone')">
+            <span class="error-text" *ngIf="invalid('deliveryPhone')">Enter a valid phone number (digits, spaces, + or -).</span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="co-address">Delivery address</label>
+          <textarea id="co-address" class="input" formControlName="deliveryAddress" autocomplete="street-address" [class.invalid]="invalid('deliveryAddress')"></textarea>
+          <span class="error-text" *ngIf="invalid('deliveryAddress')">Enter the full address (at least 8 characters).</span>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="co-notes">Notes for the store <span class="muted">(optional)</span></label>
+          <input id="co-notes" class="input" formControlName="notes">
+        </div>
+      </section>
+
+      <section class="card card-pad">
+        <h2>Payment</h2>
+        <div class="pay" role="radiogroup" aria-label="Payment method">
+          <span class="tick"><app-icon name="check"></app-icon></span>
+          <div><strong>Cash on delivery</strong><span>You pay in cash when the order arrives. No online payment is taken.</span></div>
+        </div>
+      </section>
+
+      <button type="submit" class="btn btn-lg place" [disabled]="placing">{{ placing ? 'Placing your order…' : 'Place order' }}</button>
+    </form>
+
+    <aside class="card card-pad summary">
+      <h2>Order summary</h2>
+      <ul>
+        <li *ngFor="let l of cart.lines$ | async">
+          <span>{{ l.quantity }} &times; {{ l.name }}</span>
+          <span class="nowrap">{{ l.price * l.quantity | money }}</span>
+        </li>
+      </ul>
+      <div class="row"><span>Subtotal</span><strong>{{ (cart.subtotal$ | async) | money }}</strong></div>
+      <div class="row muted"><span>Payment</span><span>Cash on delivery</span></div>
+      <div class="row grand"><span>Total</span><strong>{{ (cart.subtotal$ | async) | money }}</strong></div>
+      <a routerLink="/cart" class="small">Edit cart</a>
+    </aside>
+  </div>
+</div>

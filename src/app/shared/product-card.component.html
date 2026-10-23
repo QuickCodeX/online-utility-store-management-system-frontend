@@ -1,0 +1,17 @@
+<article class="pc">
+  <a class="media" [routerLink]="['/product', product.id]" [style.background]="tint" [attr.aria-label]="'View ' + product.name">
+    <img *ngIf="product.imageUrl; else tile" [src]="product.imageUrl" [alt]="product.name" loading="lazy">
+    <ng-template #tile><span class="initials" aria-hidden="true">{{ initials }}</span></ng-template>
+  </a>
+  <div class="body">
+    <a class="cat" [routerLink]="['/shop']" [queryParams]="{ category: product.categoryId }">{{ product.category }}</a>
+    <h3><a [routerLink]="['/product', product.id]">{{ product.name }}</a></h3>
+    <p class="stock" [ngClass]="stockClass"><span class="dot" aria-hidden="true"></span>{{ stockText }}</p>
+    <div class="foot">
+      <strong class="price">{{ product.price | money }}</strong>
+      <button type="button" class="btn btn-sm" [disabled]="!inStock" (click)="add()" [attr.aria-label]="'Add ' + product.name + ' to cart'">
+        <app-icon name="plus"></app-icon>{{ inStock ? 'Add' : 'Sold out' }}
+      </button>
+    </div>
+  </div>
+</article>

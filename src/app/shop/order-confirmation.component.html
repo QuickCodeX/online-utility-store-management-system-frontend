@@ -1,0 +1,15 @@
+<div class="container store-page">
+  <app-steps [current]="3"></app-steps>
+  <div class="card card-pad box" *ngIf="order">
+    <div class="tick" aria-hidden="true"><app-icon name="check"></app-icon></div>
+    <h1>Thank you, your order is placed</h1>
+    <p class="num">Order number <strong>{{ order.orderNumber }}</strong></p>
+    <p class="muted">We received {{ order.items.length }} {{ order.items.length === 1 ? 'item' : 'items' }} totalling {{ order.total | money }}.
+      Pay in cash when it arrives at {{ order.deliveryAddress }}.</p>
+    <p class="status">Current status <app-status-badge [status]="order.status"></app-status-badge></p>
+    <div class="cta">
+      <a class="btn" [routerLink]="['/orders', order.id]">View order</a>
+      <a class="btn btn-outline" routerLink="/shop">Keep shopping</a>
+    </div>
+  </div>
+</div>

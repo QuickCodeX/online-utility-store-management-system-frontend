@@ -1,0 +1,84 @@
+<div class="container store-page">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a routerLink="/">Home</a><span aria-hidden="true">/</span>
+    <ng-container *ngIf="activeCategory; else allCrumb"><a routerLink="/shop">Shop</a><span aria-hidden="true">/</span><span>{{ activeCategory.name }}</span></ng-container>
+    <ng-template #allCrumb><span>Shop</span></ng-template>
+  </nav>
+
+  <header class="top">
+    <div>
+      <h1>{{ activeCategory ? activeCategory.name : 'All products' }}</h1>
+      <p class="muted" *ngIf="activeCategory?.description">{{ activeCategory?.description }}</p>
+      <p class="muted count" *ngIf="!loading && !error">
+        <ng-container *ngIf="keyword">Results for &ldquo;{{ keyword }}&rdquo; &middot; </ng-container>{{ visible.length }} {{ visible.length === 1 ? 'product' : 'products' }}
+      </p>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Filters: left panel on desktop, slide-up sheet on phones -->
+    <div class="backdrop" *ngIf="filtersOpen" (click)="filtersOpen = false"></div>
+    <aside class="filters" [class.open]="filtersOpen" aria-label="Filters">
+      <div class="f-head">
+        <h2>Filters</h2>
+        <button type="button" class="btn btn-ghost btn-sm close" (click)="filtersOpen = false" aria-label="Close filters"><app-icon name="close"></app-icon></button>
+      </div>
+
+      <fieldset>
+        <legend>Category</legend>
+        <label class="radio"><input type="radio" name="cat" [checked]="categoryId === null" (change)="setCategory(null)"> All categories</label>
+        <label class="radio" *ngFor="let c of categories">
+          <input type="radio" name="cat" [checked]="categoryId === c.id" (change)="setCategory(c.id)"> {{ c.name }}
+          <span class="n">{{ c.productCount }}</span>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Price (Rs)</legend>
+        <div class="price-row">
+          <input class="input" type="number" min="0" inputmode="numeric" placeholder="Min" aria-label="Minimum price" [ngModel]="minPrice" (ngModelChange)="minPrice = $event">
+          <span aria-hidden="true">&ndash;</span>
+          <input class="input" type="number" min="0" inputmode="numeric" placeholder="Max" aria-label="Maximum price" [ngModel]="maxPrice" (ngModelChange)="maxPrice = $event">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Availability</legend>
+        <label class="check"><input type="checkbox" [(ngModel)]="inStockOnly"> In stock only</label>
+      </fieldset>
+
+      <button type="button" class="btn btn-outline btn-block" (click)="clearFilters()">Clear all filters</button>
+      <button type="button" class="btn btn-block apply" (click)="filtersOpen = false">Show {{ visible.length }} {{ visible.length === 1 ? 'product' : 'products' }}</button>
+    </aside>
+
+    <section class="results" aria-live="polite">
+      <div class="bar">
+        <button type="button" class="btn btn-outline btn-sm filter-btn" (click)="filtersOpen = true"><app-icon name="filter"></app-icon>Filters</button>
+        <label class="sort"><span class="small muted">Sort by</span>
+          <select class="input" [ngModel]="sort" (ngModelChange)="setSort($event)">
+            <option value="name">Name</option>
+            <option value="price_asc">Price: low to high</option>
+            <option value="price_desc">Price: high to low</option>
+            <option value="newest">Newest</option>
+          </select>
+        </label>
+      </div>
+
+      <div *ngIf="error" class="alert alert-error">{{ error }} <button type="button" class="btn btn-sm btn-outline" (click)="reload()">Try again</button></div>
+
+      <div class="product-grid" *ngIf="loading">
+        <div class="skeleton-card" *ngFor="let n of [1,2,3,4,5,6]"><div class="skeleton img"></div><div class="skeleton line"></div><div class="skeleton line short"></div></div>
+      </div>
+
+      <div *ngIf="!loading && !error && !visible.length" class="empty-state">
+        <h3>No products match</h3>
+        <p>Try a different word, widen the price range, or pick another category.</p>
+        <button type="button" class="btn btn-outline" (click)="clearFilters()">Clear filters</button>
+      </div>
+
+      <div class="product-grid" *ngIf="!loading && visible.length">
+        <app-product-card *ngFor="let p of visible" [product]="p"></app-product-card>
+      </div>
+    </section>
+  </div>
+</div>

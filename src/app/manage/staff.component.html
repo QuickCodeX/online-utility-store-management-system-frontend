@@ -1,0 +1,47 @@
+<div class="page-head"><h1>Staff</h1></div>
+
+<form class="card card-pad form inline" [formGroup]="form" (ngSubmit)="add()" novalidate>
+  <h2>Add a staff member</h2>
+  <div *ngIf="formError" class="alert alert-error">{{ formError }}</div>
+  <div class="form-row">
+    <div class="field">
+      <label for="st-name">Full name</label>
+      <input id="st-name" class="input" formControlName="name" [class.invalid]="form.controls.name.touched && form.controls.name.invalid">
+      <span class="error-text" *ngIf="form.controls.name.touched && form.controls.name.invalid">Enter a name.</span>
+    </div>
+    <div class="field">
+      <label for="st-email">Email</label>
+      <input id="st-email" type="email" class="input" formControlName="email" autocomplete="off" [class.invalid]="form.controls.email.touched && form.controls.email.invalid">
+      <span class="error-text" *ngIf="form.controls.email.touched && form.controls.email.invalid">Enter a valid email address.</span>
+    </div>
+  </div>
+  <div class="field">
+    <label for="st-pass">Temporary password</label>
+    <input id="st-pass" type="password" class="input" formControlName="password" autocomplete="new-password" [class.invalid]="form.controls.password.touched && form.controls.password.invalid">
+    <span class="hint">8+ characters with an uppercase letter, a lowercase letter and a number. Ask them to change it from My account after signing in.</span>
+    <span class="error-text" *ngIf="form.controls.password.touched && form.controls.password.invalid">Use 8 or more characters with an uppercase letter, a lowercase letter and a number.</span>
+  </div>
+  <div class="form-actions"><button type="submit" class="btn" [disabled]="saving">{{ saving ? 'Adding…' : 'Add staff member' }}</button></div>
+</form>
+
+<div *ngIf="loading" class="spinner-row">Loading staff…</div>
+<div *ngIf="error" class="alert alert-error">{{ error }}</div>
+<div *ngIf="!loading && !error && !staff.length" class="alert alert-info">No staff accounts yet.</div>
+
+<div class="table-wrap" *ngIf="staff.length">
+  <table class="table">
+    <thead><tr><th>Name</th><th>Email</th><th>Added</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      <tr *ngFor="let s of staff">
+        <td><strong>{{ s.name }}</strong></td>
+        <td>{{ s.email }}</td>
+        <td class="nowrap">{{ s.createdAt | date: 'mediumDate' }}</td>
+        <td><span class="badge" [class.badge-ok]="s.isActive" [class.badge-danger]="!s.isActive">{{ s.isActive ? 'Active' : 'Deactivated' }}</span></td>
+        <td class="right"><div class="actions">
+          <button type="button" class="btn btn-sm btn-outline" (click)="resetPassword(s)">Reset password</button>
+          <button type="button" class="btn btn-sm" [class.btn-outline]="s.isActive" (click)="toggle(s)">{{ s.isActive ? 'Deactivate' : 'Activate' }}</button>
+        </div></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

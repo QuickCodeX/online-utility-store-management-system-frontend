@@ -1,0 +1,35 @@
+<div class="container store-page">
+  <nav class="crumbs" aria-label="Breadcrumb"><a routerLink="/">Home</a><span aria-hidden="true">/</span><a routerLink="/orders">My orders</a><span aria-hidden="true">/</span><span>Order</span></nav>
+
+  <div *ngIf="loading" class="spinner-row">Loading order…</div>
+  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+  <ng-container *ngIf="order">
+    <h1>Order {{ order.orderNumber }}</h1>
+    <div class="head-row">
+      <app-status-badge [status]="order.status"></app-status-badge>
+      <span class="muted small">Placed {{ order.orderDate | date: 'medium' }}</span>
+      <button *ngIf="order.status === 'Pending'" type="button" class="btn btn-outline btn-sm" [disabled]="cancelling" (click)="cancel()">Cancel order</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Product</th><th>Price</th><th>Qty</th><th class="right">Total</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let i of order.items">
+            <td>{{ i.productName }}</td><td class="nowrap">{{ i.unitPrice | money }}</td><td>{{ i.quantity }}</td>
+            <td class="right nowrap">{{ i.lineTotal | money }}</td>
+          </tr>
+          <tr><td colspan="3" class="right"><strong>Total</strong></td><td class="right nowrap"><strong>{{ order.total | money }}</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card card-pad detail-card">
+      <h3>Delivery</h3>
+      <p style="margin:0">{{ order.deliveryName }} · {{ order.deliveryPhone }}<br>{{ order.deliveryAddress }}</p>
+      <p *ngIf="order.notes" class="muted small" style="margin:8px 0 0">Notes: {{ order.notes }}</p>
+      <p style="margin:12px 0 0">Payment: {{ order.paymentMethod }} <app-status-badge [status]="order.paymentStatus"></app-status-badge></p>
+    </div>
+  </ng-container>
+</div>
