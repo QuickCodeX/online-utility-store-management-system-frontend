@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { errorMessage } from '../core/api-error';
 import { ProductService } from '../core/api.services';
+import { CartPromptService } from '../core/cart-prompt.service';
 import { CartService } from '../core/cart.service';
 import { Product } from '../core/models';
 import { ToastService } from '../core/toast.service';
@@ -22,7 +23,8 @@ export class ProductDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private products: ProductService,
     private cart: CartService,
-    private toast: ToastService
+    private toast: ToastService,
+    private prompt: CartPromptService
   ) {}
 
   ngOnInit(): void {
@@ -74,7 +76,7 @@ export class ProductDetailComponent implements OnInit {
   add(): void {
     if (!this.product) return;
     const added = this.cart.add(this.product, this.quantity);
-    if (added > 0) this.toast.success(`${added} × ${this.product.name} added to your cart.`);
+    if (added > 0) this.prompt.show({ productId: this.product.id, name: this.product.name, imageUrl: this.product.imageUrl, added });
     else this.toast.error('You already have all available stock of this item in your cart.');
   }
 }

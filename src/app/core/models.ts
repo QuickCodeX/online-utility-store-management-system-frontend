@@ -213,6 +213,7 @@ export interface AuditEntry {
   action: string;
   entityType: string;
   entityId: string | null;
+  entityName: string | null;   // e.g. the category / product name, so the log reads in plain words
   details: string | null;
 }
 

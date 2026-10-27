@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AccountComponent } from './account.component';
+import { CartPromptComponent } from './cart-prompt.component';
 import { IconComponent } from './icon.component';
 import { MoneyPipe } from './money.pipe';
 import { ProductCardComponent } from './product-card.component';
@@ -12,7 +13,7 @@ import { ToastContainerComponent } from './toast-container.component';
 
 const declarations = [
   MoneyPipe, StatusBadgeComponent, ToastContainerComponent, ProductCardComponent, AccountComponent,
-  IconComponent, StepsComponent
+  IconComponent, StepsComponent, CartPromptComponent
 ];
 
 @NgModule({

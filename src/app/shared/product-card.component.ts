@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { CartPromptService } from '../core/cart-prompt.service';
 import { CartService } from '../core/cart.service';
 import { Product } from '../core/models';
 import { StoreSession } from '../core/session.service';
@@ -14,7 +15,7 @@ export class ProductCardComponent {
 
   private readonly tints = ['#dfe9dc', '#efe6d2', '#dce6ea', '#eadfe4', '#e3e7d3', '#f0dfd4'];
 
-  constructor(private cart: CartService, private toast: ToastService, public session: StoreSession) {}
+  constructor(private cart: CartService, private toast: ToastService, private prompt: CartPromptService, public session: StoreSession) {}
 
   get tint(): string { return this.tints[(this.product.categoryId ?? 0) % this.tints.length]; }
   get initials(): string {
@@ -28,7 +29,7 @@ export class ProductCardComponent {
 
   add(): void {
     const added = this.cart.add(this.product, 1);
-    if (added > 0) this.toast.success(`${this.product.name} added to your cart.`);
+    if (added > 0) this.prompt.show({ productId: this.product.id, name: this.product.name, imageUrl: this.product.imageUrl, added });
     else this.toast.error('You already have all available stock of this item in your cart.');
   }
 }

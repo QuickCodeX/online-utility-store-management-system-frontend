@@ -22,7 +22,7 @@
             <button type="button" class="rm" (click)="cart.remove(l.productId)"><app-icon name="trash"></app-icon>Remove</button>
           </div>
           <div class="qty" role="group" [attr.aria-label]="'Quantity for ' + l.name">
-            <button type="button" (click)="onQuantity(l.productId, l.quantity - 1)" [disabled]="l.quantity <= 1" aria-label="Decrease quantity"><app-icon name="minus"></app-icon></button>
+            <button type="button" (click)="decrease(l)" [attr.aria-label]="l.quantity <= 1 ? 'Remove ' + l.name + ' from cart' : 'Decrease quantity'" [title]="l.quantity <= 1 ? 'Remove from cart' : 'Decrease quantity'"><app-icon [name]="l.quantity <= 1 ? 'trash' : 'minus'"></app-icon></button>
             <input type="number" min="1" [max]="l.maxStock" [ngModel]="l.quantity" (ngModelChange)="onQuantity(l.productId, $event)" aria-label="Quantity">
             <button type="button" (click)="onQuantity(l.productId, l.quantity + 1)" [disabled]="l.quantity >= l.maxStock" aria-label="Increase quantity"><app-icon name="plus"></app-icon></button>
           </div>

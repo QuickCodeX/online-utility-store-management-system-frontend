@@ -20,7 +20,10 @@
         <td class="nowrap">{{ a.createdAt | date: 'medium' }}</td>
         <td>{{ a.userName }}</td>
         <td><span class="badge badge-info">{{ a.action }}</span></td>
-        <td class="nowrap">{{ a.entityType }}<span *ngIf="a.entityId"> #{{ a.entityId }}</span></td>
+        <td>
+          {{ a.entityType }}<ng-container *ngIf="a.entityName">: <strong>{{ a.entityName }}</strong></ng-container>
+          <span class="muted small" *ngIf="a.entityId"> (#{{ a.entityId }})</span>
+        </td>
         <td>{{ a.details }}</td>
       </tr>
     </tbody>

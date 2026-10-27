@@ -86,3 +86,5 @@
   </a>
   <a [routerLink]="(session.session$ | async) ? '/account' : '/account/login'" routerLinkActive="on"><app-icon name="user"></app-icon><span>Account</span></a>
 </nav>
+
+<app-cart-prompt></app-cart-prompt>
