@@ -4,6 +4,7 @@
   <label class="sr-only" for="au-search">Search</label>
   <input id="au-search" class="input" name="search" placeholder="Search by action, user or type" [(ngModel)]="search">
   <button type="submit" class="btn btn-outline">Search</button>
+  <button type="button" class="btn btn-outline btn-danger-outline push-right" *ngIf="data?.total" (click)="confirmingClear = true">Clear log</button>
 </form>
 <p class="hint">A permanent record of sensitive actions: order status changes, bills, deletions, deactivations and password resets.</p>
 
@@ -30,4 +31,15 @@
   <button type="button" class="btn btn-outline btn-sm" [disabled]="page <= 1" (click)="go(-1)">Previous</button>
   <span class="small muted">Page {{ page }} of {{ lastPage }} ({{ data.total }} entries)</span>
   <button type="button" class="btn btn-outline btn-sm" [disabled]="page >= lastPage" (click)="go(1)">Next</button>
+</div>
+
+<div class="modal-backdrop" *ngIf="confirmingClear" (click)="confirmingClear = false">
+  <div class="modal card" role="dialog" aria-modal="true" aria-labelledby="clr-title" (click)="$event.stopPropagation()">
+    <h2 id="clr-title">Clear the audit log?</h2>
+    <p>This permanently deletes all {{ data?.total }} entries. It cannot be undone. One new entry will be kept to record that you cleared the log.</p>
+    <div class="form-actions">
+      <button type="button" class="btn btn-danger" [disabled]="clearing" (click)="clearLog()">{{ clearing ? 'Clearing…' : 'Yes, clear the log' }}</button>
+      <button type="button" class="btn btn-ghost" [disabled]="clearing" (click)="confirmingClear = false">Cancel</button>
+    </div>
+  </div>
 </div>

@@ -17,8 +17,8 @@ export interface Product {
   description: string;
   price: number;
   imageUrl: string | null;
-  categoryId: number;
-  category: string;
+  categoryId: number | null;   // optional: a product may have no category
+  category: string | null;
   quantity: number;          // stock available
   isActive?: boolean;        // only returned to the management panel
 }
@@ -27,7 +27,7 @@ export interface ProductSave {
   name: string;
   description: string;
   price: number;
-  categoryId: number;
+  categoryId: number | null;
   imageUrl: string | null;
   isActive: boolean;
   initialStock: number;
@@ -51,7 +51,7 @@ export interface InventoryRow {
   inventoryId: number;
   productId: number;
   productName: string;
-  category: string;
+  category: string | null;
   isArchived: boolean;
   quantityStock: number;
   isLowStock: boolean;

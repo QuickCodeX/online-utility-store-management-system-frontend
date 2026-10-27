@@ -4,7 +4,7 @@
     <ng-template #tile><span class="initials" aria-hidden="true">{{ initials }}</span></ng-template>
   </a>
   <div class="body">
-    <a class="cat" [routerLink]="['/shop']" [queryParams]="{ category: product.categoryId }">{{ product.category }}</a>
+    <a class="cat" *ngIf="product.categoryId" [routerLink]="['/shop']" [queryParams]="{ category: product.categoryId }">{{ product.category }}</a>
     <h3><a [routerLink]="['/product', product.id]">{{ product.name }}</a></h3>
     <p class="stock" [ngClass]="stockClass"><span class="dot" aria-hidden="true"></span>{{ stockText }}</p>
     <div class="foot">

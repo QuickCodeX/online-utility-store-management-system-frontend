@@ -23,12 +23,11 @@
       <span class="error-text" *ngIf="bad('price')">Price must be greater than 0.</span>
     </div>
     <div class="field">
-      <label for="pf-cat">Category</label>
-      <select id="pf-cat" class="input" formControlName="categoryId" [class.invalid]="bad('categoryId')">
-        <option [ngValue]="0" disabled>Choose a category</option>
+      <label for="pf-cat">Category (optional)</label>
+      <select id="pf-cat" class="input" formControlName="categoryId">
+        <option [ngValue]="null">No category</option>
         <option *ngFor="let c of categories" [ngValue]="c.id" [disabled]="c.isActive === false">{{ c.name }}{{ c.isActive === false ? ' (archived)' : '' }}</option>
       </select>
-      <span class="error-text" *ngIf="bad('categoryId')">Choose a category.</span>
     </div>
   </div>
   <div class="form-row">

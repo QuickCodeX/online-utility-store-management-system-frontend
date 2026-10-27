@@ -2,7 +2,7 @@
   <nav class="crumbs" aria-label="Breadcrumb">
     <a routerLink="/">Home</a><span aria-hidden="true">/</span>
     <a routerLink="/shop">Shop</a>
-    <ng-container *ngIf="product"><span aria-hidden="true">/</span><a routerLink="/shop" [queryParams]="{ category: product.categoryId }">{{ product.category }}</a><span aria-hidden="true">/</span><span>{{ product.name }}</span></ng-container>
+    <ng-container *ngIf="product"><ng-container *ngIf="product.categoryId"><span aria-hidden="true">/</span><a routerLink="/shop" [queryParams]="{ category: product.categoryId }">{{ product.category }}</a></ng-container><span aria-hidden="true">/</span><span>{{ product.name }}</span></ng-container>
   </nav>
 
   <div class="detail" *ngIf="loading">
@@ -21,7 +21,7 @@
       </div>
 
       <div class="info">
-        <a class="cat" routerLink="/shop" [queryParams]="{ category: product.categoryId }">{{ product.category }}</a>
+        <a class="cat" *ngIf="product.categoryId" routerLink="/shop" [queryParams]="{ category: product.categoryId }">{{ product.category }}</a>
         <h1>{{ product.name }}</h1>
         <p class="price">{{ product.price | money }}</p>
 
@@ -49,7 +49,7 @@
     </div>
 
     <section class="section" *ngIf="related.length" aria-labelledby="rel-title">
-      <div class="section-head"><h2 id="rel-title">More from {{ product.category }}</h2><a routerLink="/shop" [queryParams]="{ category: product.categoryId }" class="link-arrow">View all <app-icon name="arrow"></app-icon></a></div>
+      <div class="section-head"><h2 id="rel-title">{{ product.category ? 'More from ' + product.category : 'You may also like' }}</h2><a routerLink="/shop" [queryParams]="{ category: product.categoryId }" class="link-arrow">View all <app-icon name="arrow"></app-icon></a></div>
       <div class="product-grid cols-4"><app-product-card *ngFor="let p of related" [product]="p"></app-product-card></div>
     </section>
   </ng-container>

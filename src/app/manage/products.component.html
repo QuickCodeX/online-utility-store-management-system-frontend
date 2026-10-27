@@ -18,7 +18,7 @@
     <tbody>
       <tr *ngFor="let p of shown">
         <td><strong>{{ p.name }}</strong></td>
-        <td>{{ p.category }}</td>
+        <td>{{ p.category || '—' }}</td>
         <td class="nowrap">{{ p.price | money }}</td>
         <td>{{ p.quantity }} <span class="badge badge-warn" *ngIf="p.quantity < 10">Low</span></td>
         <td><span class="badge" [class.badge-ok]="p.isActive" [class.badge-danger]="!p.isActive">{{ p.isActive ? 'On sale' : 'Archived' }}</span></td>

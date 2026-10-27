@@ -203,4 +203,9 @@ export class AuditService {
     if (search) params = params.set('search', search);
     return this.http.get<AuditPage>(`${API}/audit`, { params });
   }
+
+  // Admin only
+  clear(): Observable<{ removed: number }> {
+    return this.http.delete<{ removed: number }>(`${API}/audit`);
+  }
 }

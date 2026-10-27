@@ -36,10 +36,14 @@ export class ProductDetailComponent implements OnInit {
         next: p => {
           this.product = p; this.loading = false;
           // "More from this category": other products in the same category
-          this.products.search({ categoryId: p.categoryId }).subscribe({
-            next: list => (this.related = list.filter(x => x.id !== p.id).slice(0, 4)),
-            error: () => (this.related = [])
-          });
+          if (p.categoryId) {
+            this.products.search({ categoryId: p.categoryId }).subscribe({
+              next: list => (this.related = list.filter(x => x.id !== p.id).slice(0, 4)),
+              error: () => (this.related = [])
+            });
+          } else {
+            this.related = [];
+          }
         },
         error: e => {
           this.product = null;

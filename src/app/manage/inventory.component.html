@@ -14,7 +14,7 @@
     <tbody>
       <tr *ngFor="let r of shown">
         <td><strong>{{ r.productName }}</strong> <span class="badge badge-danger" *ngIf="r.isArchived">Archived</span></td>
-        <td>{{ r.category }}</td>
+        <td>{{ r.category || '—' }}</td>
         <td>
           <strong>{{ r.quantityStock }}</strong>
           <span class="badge badge-warn" *ngIf="r.isLowStock"> Low</span>

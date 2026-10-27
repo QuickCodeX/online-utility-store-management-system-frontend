@@ -14,6 +14,15 @@ export class StaffComponent implements OnInit {
   error = '';
   formError = '';
 
+  // Reset-password popup
+  resetTarget: UserRow | null = null;
+  resetSaving = false;
+  resetError = '';
+  resetForm = this.fb.nonNullable.group({
+    newPassword: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,100}$/)]],
+    confirm: ['', [Validators.required]]
+  });
+
   form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.maxLength(100)]],
     email: ['', [Validators.required, Validators.email, Validators.maxLength(150)]],
@@ -42,14 +51,32 @@ export class StaffComponent implements OnInit {
     });
   }
 
-  resetPassword(s: UserRow): void {
-    const pw = prompt(`New password for ${s.name} (8+ characters, with an uppercase letter, a lowercase letter and a number):`);
-    if (!pw) return;
-    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,100}$/.test(pw)) { this.toast.error('Use 8 or more characters with an uppercase letter, a lowercase letter and a number.'); return; }
+  openReset(s: UserRow): void {
+    this.resetTarget = s;
+    this.resetError = '';
+    this.resetForm.reset();
+  }
 
-    this.users.resetPassword(s.id, pw).subscribe({
-      next: () => this.toast.success('Password reset. Tell them to sign in with the new password.'),
-      error: e => this.toast.error(errorMessage(e))
+  closeReset(): void { if (!this.resetSaving) this.resetTarget = null; }
+
+  get mismatch(): boolean {
+    const v = this.resetForm.getRawValue();
+    return !!v.confirm && v.newPassword !== v.confirm;
+  }
+
+  submitReset(): void {
+    if (!this.resetTarget) return;
+    if (this.resetForm.invalid || this.mismatch) { this.resetForm.markAllAsTouched(); return; }
+
+    this.resetSaving = true;
+    this.resetError = '';
+    const target = this.resetTarget;
+    this.users.resetPassword(target.id, this.resetForm.getRawValue().newPassword).subscribe({
+      next: () => {
+        this.toast.success(`Password reset for ${target.name}. Tell them to sign in with the new password.`);
+        this.resetSaving = false; this.resetTarget = null;
+      },
+      error: e => { this.resetError = errorMessage(e); this.resetSaving = false; }
     });
   }
 

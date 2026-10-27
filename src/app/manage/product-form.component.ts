@@ -19,7 +19,7 @@ export class ProductFormComponent implements OnInit {
     name: ['', [Validators.required, Validators.maxLength(150)]],
     description: ['', [Validators.maxLength(500)]],
     price: [0, [Validators.required, Validators.min(0.01)]],
-    categoryId: [0, [Validators.required, Validators.min(1)]],
+    categoryId: [null as number | null],   // optional
     imageUrl: ['', [Validators.maxLength(300)]],
     initialStock: [0, [Validators.required, Validators.min(0)]],
     isActive: [true]
@@ -70,7 +70,7 @@ export class ProductFormComponent implements OnInit {
     this.error = '';
     const v = this.form.getRawValue();
     const dto = {
-      name: v.name, description: v.description, price: Number(v.price), categoryId: Number(v.categoryId),
+      name: v.name, description: v.description, price: Number(v.price), categoryId: v.categoryId ? Number(v.categoryId) : null,
       imageUrl: v.imageUrl || null, isActive: v.isActive, initialStock: Number(v.initialStock)
     };
 
@@ -84,7 +84,7 @@ export class ProductFormComponent implements OnInit {
     });
   }
 
-  bad(name: 'name' | 'price' | 'categoryId' | 'initialStock'): boolean {
+  bad(name: 'name' | 'price' | 'initialStock'): boolean {
     const c = this.form.controls[name];
     return c.touched && c.invalid;
   }

@@ -16,7 +16,7 @@ export class ProductCardComponent {
 
   constructor(private cart: CartService, private toast: ToastService, public session: StoreSession) {}
 
-  get tint(): string { return this.tints[this.product.categoryId % this.tints.length]; }
+  get tint(): string { return this.tints[(this.product.categoryId ?? 0) % this.tints.length]; }
   get initials(): string {
     return this.product.name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase();
   }

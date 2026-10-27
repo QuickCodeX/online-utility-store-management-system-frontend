@@ -192,3 +192,12 @@ select.input { appearance: auto; }
 .barcol { width: 28%; min-width: 90px; }
 .meter { height: 10px; border-radius: 6px; background: var(--mist-soft); overflow: hidden; }
 .meter span { display: block; height: 100%; background: var(--leaf); border-radius: 6px; }
+
+/* ---------- Modal (used by Reset password and Clear audit log) ---------- */
+.modal-backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: var(--s-4); background: rgba(20, 35, 31, .45); }
+.modal { width: min(460px, 100%); padding: var(--s-6); box-shadow: var(--shadow-md); }
+.modal h2 { font-size: var(--fs-xl); }
+.modal .form-actions { margin-top: var(--s-4); }
+.btn-danger-outline { color: var(--danger); border-color: var(--danger); }
+.btn-danger-outline:hover { background: #fbeceb; }
+.push-right { margin-left: auto; }

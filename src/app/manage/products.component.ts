@@ -18,7 +18,7 @@ export class ProductsComponent implements OnInit {
 
   get shown(): Product[] {
     const f = this.filter.trim().toLowerCase();
-    return f ? this.products.filter(p => p.name.toLowerCase().includes(f) || p.category.toLowerCase().includes(f)) : this.products;
+    return f ? this.products.filter(p => p.name.toLowerCase().includes(f) || (p.category ?? '').toLowerCase().includes(f)) : this.products;
   }
 
   load(): void {

@@ -12,7 +12,7 @@ import { Component } from '@angular/core';
         You can follow every order's status from your account.</p>
       <p><a routerLink="/shop" class="btn">Browse the shop</a></p>
     </div>`,
-  styles: ['.narrow{max-width:760px;margin-inline:auto 0}.lead{font-size:var(--fs-xl);color:var(--pine);font-weight:500}']
+  styles: ['.narrow{max-width:760px;margin-inline:auto}.lead{font-size:var(--fs-xl);color:var(--pine);font-weight:500}']
 })
 export class AboutComponent {}
 
