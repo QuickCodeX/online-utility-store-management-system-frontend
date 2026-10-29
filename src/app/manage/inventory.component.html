@@ -10,7 +10,7 @@
 
 <div class="table-wrap" *ngIf="shown.length">
   <table class="table">
-    <thead><tr><th>Product</th><th>Category</th><th>In stock</th><th>Receive stock</th><th>Correct count</th></tr></thead>
+    <thead><tr><th>Product</th><th>Category</th><th>In stock</th><th>Add or remove units</th><th>Set exact count</th></tr></thead>
     <tbody>
       <tr *ngFor="let r of shown">
         <td><strong>{{ r.productName }}</strong> <span class="badge badge-danger" *ngIf="r.isArchived">Archived</span></td>
@@ -23,6 +23,7 @@
           <div class="inline-ctl">
             <input class="input" type="number" min="1" [(ngModel)]="receiveQty[r.productId]" [attr.aria-label]="'Quantity received for ' + r.productName" placeholder="Qty">
             <button type="button" class="btn btn-sm" [disabled]="busyId === r.productId" (click)="receive(r)">Add</button>
+            <button type="button" class="btn btn-outline btn-sm" [disabled]="busyId === r.productId || r.quantityStock < 1" (click)="remove(r)">Remove</button>
           </div>
         </td>
         <td>

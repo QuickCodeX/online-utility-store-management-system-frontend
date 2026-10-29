@@ -31,11 +31,24 @@ export class InventoryComponent implements OnInit {
 
   receive(r: InventoryRow): void {
     const qty = Number(this.receiveQty[r.productId]);
-    if (!Number.isInteger(qty) || qty < 1) { this.toast.error('Enter a whole number of 1 or more to receive.'); return; }
+    if (!Number.isInteger(qty) || qty < 1) { this.toast.error('Enter a whole number of 1 or more to add.'); return; }
 
     this.busyId = r.productId;
     this.service.receive(r.productId, qty).subscribe({
       next: () => { this.toast.success(`Added ${qty} to ${r.productName}.`); this.receiveQty[r.productId] = 0; this.busyId = null; this.load(); },
+      error: e => { this.toast.error(errorMessage(e)); this.busyId = null; }
+    });
+  }
+
+  // Take units off the stock (a mistake, damaged or lost items). It cannot go below zero.
+  remove(r: InventoryRow): void {
+    const qty = Number(this.receiveQty[r.productId]);
+    if (!Number.isInteger(qty) || qty < 1) { this.toast.error('Enter a whole number of 1 or more to remove.'); return; }
+    if (qty > r.quantityStock) { this.toast.error(`Only ${r.quantityStock} in stock, so you cannot remove ${qty}.`); return; }
+
+    this.busyId = r.productId;
+    this.service.remove(r.productId, qty).subscribe({
+      next: () => { this.toast.success(`Removed ${qty} from ${r.productName}.`); this.receiveQty[r.productId] = 0; this.busyId = null; this.load(); },
       error: e => { this.toast.error(errorMessage(e)); this.busyId = null; }
     });
   }

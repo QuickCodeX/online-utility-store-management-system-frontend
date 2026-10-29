@@ -84,6 +84,10 @@ export class InventoryService {
   receive(productId: number, quantity: number): Observable<{ productId: number; quantityStock: number }> {
     return this.http.post<{ productId: number; quantityStock: number }>(`${API}/inventory/${productId}/receive`, { quantity });
   }
+
+  remove(productId: number, quantity: number): Observable<{ productId: number; quantityStock: number }> {
+    return this.http.post<{ productId: number; quantityStock: number }>(`${API}/inventory/${productId}/remove`, { quantity });
+  }
 }
 
 @Injectable({ providedIn: 'root' })
