@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
     </div>`,
   styles: ['.narrow{max-width:760px;margin-inline:auto}.lead{font-size:var(--fs-xl);color:var(--pine);font-weight:500}']
 })
-export class AboutComponent {}
+export class AboutComponent { }
 
 @Component({
   selector: 'app-contact',
@@ -23,14 +23,17 @@ export class AboutComponent {}
       <h1>Contact us</h1>
       <p class="muted">Questions about an order? Have your order number ready when you get in touch.</p>
       <div class="grid">
-        <div class="card card-pad"><span class="ico"><app-icon name="pin"></app-icon></span><h3>Visit</h3><p>Main Market<br>Lahore, Pakistan</p></div>
-        <div class="card card-pad"><span class="ico"><app-icon name="phone"></app-icon></span><h3>Call</h3><p>0300 000 0000<br>Daily, 9am to 9pm</p></div>
-        <div class="card card-pad"><span class="ico"><app-icon name="mail"></app-icon></span><h3>Email</h3><p>hello&#64;utilitystore.example</p></div>
+        <div class="card card-pad"><span class="ico"><app-icon name="pin"></app-icon></span><h3>Visit</h3>
+        <p>Sector F16<br>Islamabad, Pakistan</p></div>
+        <div class="card card-pad"><span class="ico"><app-icon name="phone"></app-icon></span><h3>Call</h3>
+        <p>0300 XXXXXXX<br>Daily, 9am to 9pm</p></div>
+        <div class="card card-pad"><span class="ico"><app-icon name="mail"></app-icon></span><h3>Email</h3>
+        <p>hello&#64;utilitystore.example</p></div>
       </div>
     </div>`,
   styles: ['.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--s-4);margin-top:var(--s-6)}.ico{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:12px;background:var(--leaf-tint);color:var(--leaf-dark);margin-bottom:var(--s-4)}p{margin:0;color:var(--muted)}']
 })
-export class ContactComponent {}
+export class ContactComponent { }
 
 @Component({
   selector: 'app-not-found',
@@ -42,4 +45,4 @@ export class ContactComponent {}
     </div>`,
   styles: ['.nf{padding-block:var(--s-16);text-align:center}']
 })
-export class NotFoundComponent {}
+export class NotFoundComponent { }
