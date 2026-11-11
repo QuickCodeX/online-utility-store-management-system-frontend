@@ -13,7 +13,6 @@ const API = environment.apiUrl;
 export class ProductService {
   constructor(private http: HttpClient) {}
 
-  // Storefront (public)
   search(filter: { categoryId?: number | null; keyword?: string | null; sort?: string | null }): Observable<Product[]> {
     let params = new HttpParams();
     if (filter.categoryId) params = params.set('categoryId', filter.categoryId);
@@ -26,7 +25,6 @@ export class ProductService {
     return this.http.get<Product>(`${API}/products/${id}`);
   }
 
-  // Management panel
   manageList(): Observable<Product[]> {
     return this.http.get<Product[]>(`${API}/products/manage`);
   }

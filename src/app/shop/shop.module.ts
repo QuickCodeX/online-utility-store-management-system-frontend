@@ -17,7 +17,6 @@ import { ShopComponent } from './shop.component';
 import { AboutComponent, ContactComponent, NotFoundComponent } from './static-pages';
 
 const routes: Routes = [
-  // Full-page customer sign-in / sign-up: outside the store layout, so they show only the form
   { path: 'account/login', component: LoginComponent, title: 'Log in · UtilityStore' },
   { path: 'account/register', component: RegisterComponent, title: 'Sign up · UtilityStore' },
   { path: 'login', redirectTo: 'account/login', pathMatch: 'full' },

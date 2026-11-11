@@ -37,7 +37,6 @@ export class CheckoutComponent implements OnInit {
     // Only customers can order. Staff/Admin see an explanation instead of the form.
     if (!this.session.isCustomer()) return;
 
-    // Pre-fill the form from the customer's saved details
     this.accounts.me().subscribe({
       next: p => this.form.patchValue({
         deliveryName: p.name,

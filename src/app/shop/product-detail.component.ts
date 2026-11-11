@@ -37,7 +37,6 @@ export class ProductDetailComponent implements OnInit {
       this.products.getById(id).subscribe({
         next: p => {
           this.product = p; this.loading = false;
-          // "More from this category": other products in the same category
           if (p.categoryId) {
             this.products.search({ categoryId: p.categoryId }).subscribe({
               next: list => (this.related = list.filter(x => x.id !== p.id).slice(0, 4)),

@@ -12,7 +12,6 @@ export class InventoryComponent implements OnInit {
   error = '';
   busyId: number | null = null;
 
-  // Typed-in values, keyed by product id
   receiveQty: Record<number, number> = {};
   setQty: Record<number, number> = {};
 

@@ -26,7 +26,6 @@ export class AdminLoginComponent {
     private fb: FormBuilder, private auth: AuthService, private router: Router,
     private route: ActivatedRoute, private admin: AdminSession
   ) {
-    // Already signed in to the dashboard: no need to see the form
     if (this.admin.isLoggedIn()) this.router.navigateByUrl('/admin/dashboard');
   }
 

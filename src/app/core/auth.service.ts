@@ -27,7 +27,6 @@ export class AuthService {
     );
   }
 
-  // Admin dashboard sign-in (admin and staff accounts only)
   adminLogin(email: string, password: string): Observable<Session> {
     return this.http.post<LoginResponse>(`${this.api}/admin/login`, { email, password }).pipe(
       map(toSession),

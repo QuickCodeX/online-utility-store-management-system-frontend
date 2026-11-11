@@ -8,7 +8,6 @@ export interface CartPromptData {
   added: number;
 }
 
-// Tells the "Added to your cart" popup what to show. null = popup closed.
 @Injectable({ providedIn: 'root' })
 export class CartPromptService {
   private readonly subject = new BehaviorSubject<CartPromptData | null>(null);

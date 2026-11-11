@@ -22,7 +22,6 @@ import { StaffComponent } from './staff.component';
 const adminOnly = { canActivate: [adminGuard], data: { roles: ['Admin'] } };
 
 const routes: Routes = [
-  // Separate door for staff and administrators (full page, no dashboard shell)
   { path: 'login', component: AdminLoginComponent, title: 'Log in · UtilityStore Admin' },
   {
     path: '',

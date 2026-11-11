@@ -31,7 +31,6 @@ export class ShopLayoutComponent {
     this.menuOpen = !this.menuOpen;
   }
 
-  // Click anywhere else, or press Escape, to close the account menu
   @HostListener('document:click') closeMenu(): void { this.menuOpen = false; }
   @HostListener('document:keydown.escape') closeOnEscape(): void { this.menuOpen = false; }
 

@@ -6,7 +6,6 @@ import { CategoryService, ProductService } from '../core/api.services';
 import { Category } from '../core/models';
 import { ToastService } from '../core/toast.service';
 
-// One form for both "Add product" and "Edit product"
 @Component({ selector: 'app-product-form', templateUrl: './product-form.component.html' })
 export class ProductFormComponent implements OnInit {
   id: number | null = null;
@@ -19,7 +18,7 @@ export class ProductFormComponent implements OnInit {
     name: ['', [Validators.required, Validators.maxLength(150)]],
     description: ['', [Validators.maxLength(500)]],
     price: [0, [Validators.required, Validators.min(0.01)]],
-    categoryId: [null as number | null],   // optional
+    categoryId: [null as number | null],
     imageUrl: ['', [Validators.maxLength(300)]],
     initialStock: [0, [Validators.required, Validators.min(0)]],
     isActive: [true]

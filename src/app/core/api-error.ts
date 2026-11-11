@@ -1,7 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
 // Turns any API error into one readable sentence.
-// Handles our own { message } errors and ASP.NET validation errors ({ errors: { Field: [..] } }).
 export function errorMessage(err: unknown, fallback = 'Something went wrong. Please try again.'): string {
   const e = err as HttpErrorResponse;
 

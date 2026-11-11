@@ -38,7 +38,6 @@ export class AccountComponent implements OnInit {
     private store: StoreSession, private admin: AdminSession, private router: Router, private auth: AuthService
   ) {}
 
-  // The customer website has no sign-out button on phones except here; the admin shell has its own
   get isStore(): boolean { return !inAdminArea(); }
 
   logout(): void {

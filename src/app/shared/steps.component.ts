@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 
-// "Cart > Delivery > Done" progress indicator shown on the cart, checkout and confirmation pages
 @Component({
   selector: 'app-steps',
   template: `

@@ -8,8 +8,6 @@ import { Role, Session } from './models';
 // Each portal keeps its OWN login in its OWN storage slot, so a customer and an admin can be
 // signed in at the same time in two tabs of one browser, exactly like a Shopify shop and its admin area.
 // (The old code used one shared slot, so the last login overwrote the other one.)
-//
-// This class does NOT use HttpClient, so the HTTP interceptor can depend on it without a circular dependency.
 export abstract class PortalSession {
   private readonly subject: BehaviorSubject<Session | null>;
   readonly session$;

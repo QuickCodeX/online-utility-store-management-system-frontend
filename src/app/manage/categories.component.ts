@@ -9,7 +9,7 @@ import { ToastService } from '../core/toast.service';
 @Component({ selector: 'app-categories', templateUrl: './categories.component.html' })
 export class CategoriesComponent implements OnInit {
   categories: Category[] = [];
-  editing: Category | null = null;   // null = adding a new one
+  editing: Category | null = null;
   loading = true;
   saving = false;
   error = '';

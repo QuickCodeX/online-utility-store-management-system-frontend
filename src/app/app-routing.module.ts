@@ -8,7 +8,6 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./manage/manage.module').then(m => m.ManageModule)
   },
-  // Customer website (everything else)
   {
     path: '',
     loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule)

@@ -39,7 +39,6 @@ export class ShopComponent implements OnInit, OnDestroy {
     this.categoryService.list().subscribe({ next: c => (this.categories = c), error: () => {} });
 
     // The address bar (?category=1&q=rice&sort=price_asc) is the source of truth,
-    // so refresh, back button and shared links all work.
     this.sub = this.route.queryParamMap.subscribe(params => {
       this.categoryId = params.get('category') ? Number(params.get('category')) : null;
       this.keyword = params.get('q') ?? '';

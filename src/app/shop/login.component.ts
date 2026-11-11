@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { errorMessage } from '../core/api-error';
 import { AuthService } from '../core/auth.service';
 
-// Customer log-in page: a full page of its own (no store header or footer), like the big platforms.
 // It talks to POST /api/auth/login, which only accepts Customer accounts.
 @Component({
   selector: 'app-login',

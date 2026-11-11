@@ -12,7 +12,6 @@ export class CartComponent {
 
   onQuantity(productId: number, value: number): void { this.cart.setQuantity(productId, Number(value)); }
 
-  // The minus button takes one off; on the last unit it removes the item, so the cart can reach empty
   decrease(line: CartLine): void {
     if (line.quantity <= 1) this.cart.remove(line.productId);
     else this.cart.setQuantity(line.productId, line.quantity - 1);

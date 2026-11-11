@@ -26,7 +26,6 @@ export class IdleService {
     if (this.started) return;
     this.started = true;
 
-    // Listen outside Angular's change detection so mouse moves do not trigger re-rendering
     this.zone.runOutsideAngular(() => {
       EVENTS.forEach(e => window.addEventListener(e, () => this.reset(), { passive: true }));
     });
@@ -41,7 +40,7 @@ export class IdleService {
   private expire(): void {
     // Only the portal of THIS tab is signed out
     const adminArea = inAdminArea();
-    if (!(adminArea ? this.admin.session : this.store.session)) return;   // nobody is signed in
+    if (!(adminArea ? this.admin.session : this.store.session)) return;
     if (adminArea) this.auth.adminLogout(); else this.auth.customerLogout();
     this.toast.error('You were signed out after 15 minutes of inactivity.');
     this.router.navigate([adminArea ? '/admin/login' : '/account/login']);

@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { CartPromptService } from '../core/cart-prompt.service';
 import { CartService } from '../core/cart.service';
 
-// Popup shown after "Add to cart": keep shopping or go straight to checkout.
 @Component({
   selector: 'app-cart-prompt',
   template: `
@@ -48,6 +47,6 @@ export class CartPromptComponent {
 
   checkout(): void {
     this.prompts.close();
-    this.router.navigateByUrl('/checkout');   // the checkout guard sends guests to log in first
+    this.router.navigateByUrl('/checkout');
   }
 }

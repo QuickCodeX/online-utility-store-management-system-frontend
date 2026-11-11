@@ -16,7 +16,6 @@
   </header>
 
   <div class="layout">
-    <!-- Filters: left panel on desktop, slide-up sheet on phones -->
     <div class="backdrop" *ngIf="filtersOpen" (click)="filtersOpen = false"></div>
     <aside class="filters" [class.open]="filtersOpen" aria-label="Filters">
       <div class="f-head">

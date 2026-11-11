@@ -17,10 +17,10 @@ export interface Product {
   description: string;
   price: number;
   imageUrl: string | null;
-  categoryId: number | null;   // optional: a product may have no category
+  categoryId: number | null;
   category: string | null;
   quantity: number;          // stock available
-  isActive?: boolean;        // only returned to the management panel
+  isActive?: boolean;
 }
 
 export interface ProductSave {
@@ -38,7 +38,7 @@ export interface Category {
   name: string;
   description: string | null;
   productCount: number;
-  isActive?: boolean;        // only returned to the management panel
+  isActive?: boolean;
 }
 
 export interface CategorySave {
@@ -91,9 +91,9 @@ export interface OrderSummary {
   paymentMethod: string;
   paymentStatus: string;
   total: number;
-  itemCount?: number;        // customer list
-  customerName?: string;     // staff list
-  hasBill?: boolean;         // staff list
+  itemCount?: number;
+  customerName?: string;
+  hasBill?: boolean;
 }
 
 export interface OrderLine {
@@ -154,7 +154,7 @@ export interface BillDetail {
 export interface DashboardData {
   totalOrders: number;
   pendingOrders: number;
-  revenue: number | null;    // null for Staff
+  revenue: number | null;
   activeProducts: number;
   lowStockProducts: number;
   customers: number;
@@ -213,7 +213,7 @@ export interface AuditEntry {
   action: string;
   entityType: string;
   entityId: string | null;
-  entityName: string | null;   // e.g. the category / product name, so the log reads in plain words
+  entityName: string | null;
   details: string | null;
 }
 
